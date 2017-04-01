@@ -26,6 +26,10 @@ Plugin 'vim-syntastic/syntastic'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'scrooloose/nerdcommenter' 
 Plugin 'tpope/vim-fugitive'
+Plugin 'vim-scripts/indentpython.vim'
+Plugin 'jmcantrell/vim-virtualenv'
+Plugin 'tpope/vim-surround'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -62,7 +66,6 @@ nnoremap <C-H> <C-W><C-H>
 set foldmethod=indent
 set foldlevel=99
 " Enable folding with the spacebar
-"nnoremap <space> za
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:airline#extensions#tabline#enabled = 1
@@ -102,7 +105,7 @@ nmap <leader>w :w!<cr>
 nnoremap <leader>ga :Git add %:p<CR><CR>
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>gc :Gcommit -v -q<CR>
-nnoremap <leader>gt :Gcommit -v -q %:p<CR>
+nnoremap <leader>gt :Gcommit -v -q :%p<CR>
 nnoremap <leader>gd :Gdiff<CR>
 nnoremap <leader>ge :Gedit<CR>
 nnoremap <leader>gr :Gread<CR>
@@ -115,3 +118,13 @@ nnoremap <leader>go :Git checkout<Space>
 nnoremap <leader>gps :Dispatch! git push<CR>
 nnoremap <leader>gpl :Dispatch! git pull<CR>
 nnoremap Q <nop>
+autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
+
+au BufNewFile,BufRead *.py
+    \ set tabstop=4
+    \ set softtabstop=4
+    \ set shiftwidth=4
+    \ set textwidth=120
+    \ set expandtab
+    \ set autoindent
+    \ set fileformat=unix
