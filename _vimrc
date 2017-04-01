@@ -3,6 +3,7 @@ filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
 set rtp+=$HOME/vimfiles/bundle/Vundle.vim/
+set laststatus=2
 call vundle#begin('$HOME/vimfiles/bundle/')
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
@@ -21,6 +22,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'Yggdroot/indentLine'
+Plugin 'vim-syntastic/syntastic' 
 Plugin 'davidhalter/jedi-vim'
 Plugin 'scrooloose/nerdcommenter' 
 Plugin 'tpope/vim-fugitive'
@@ -77,8 +79,11 @@ silent! map <F3> :NERDTreeFind<CR>
 
 filetype plugin on
 
-nmap <silent> <Leader>r :source $MYVIMRC<CR>
 nmap <silent> <Leader>e :e $MYVIMRC<CR>
+augroup reload_vimrc " {
+    autocmd!
+    autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup END " }
 
 "set winheight=30
 "set winminheight=5
@@ -92,3 +97,21 @@ nmap <silent> <Leader>e :e $MYVIMRC<CR>
   "execfile(activate_this, dict(__file__=activate_this))
 "EOF
 nnoremap <C-Up> <C-W><bar>
+nmap <leader>w :w!<cr>
+" fugitive git bindings
+nnoremap <leader>ga :Git add %:p<CR><CR>
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gc :Gcommit -v -q<CR>
+nnoremap <leader>gt :Gcommit -v -q %:p<CR>
+nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>ge :Gedit<CR>
+nnoremap <leader>gr :Gread<CR>
+nnoremap <leader>gw :Gwrite<CR><CR>
+nnoremap <leader>gl :silent! Glog<CR>:bot copen<CR>
+nnoremap <leader>gp :Ggrep<Space>
+nnoremap <leader>gm :Gmove<Space>
+nnoremap <leader>gb :Git branch<Space>
+nnoremap <leader>go :Git checkout<Space>
+nnoremap <leader>gps :Dispatch! git push<CR>
+nnoremap <leader>gpl :Dispatch! git pull<CR>
+nnoremap Q <nop>
