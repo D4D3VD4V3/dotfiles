@@ -23,6 +23,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'Yggdroot/indentLine'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'scrooloose/nerdcommenter' 
+Plugin 'tpope/vim-fugitive'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -38,7 +39,7 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
-set guifont=Lucida_Console:h10
+set guifont=Consolas:h10
 set number
 set relativenumber
 set undofile
@@ -54,6 +55,7 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+"nnoremap <C-Up> <C-W>|
 " Enable folding
 set foldmethod=indent
 set foldlevel=99
@@ -61,7 +63,6 @@ set foldlevel=99
 "nnoremap <space> za
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
-autocmd vimenter * NERDTree
 let g:airline#extensions#tabline#enabled = 1
 colorscheme basic-dark
 let g:airline#extensions#wordcount#enabled = 1
@@ -81,3 +82,13 @@ nmap <silent> <Leader>e :e $MYVIMRC<CR>
 
 "set winheight=30
 "set winminheight=5
+""python with virtualenv support
+"py << EOF
+"import os
+"import sys
+"if 'VIRTUAL_ENV' in os.environ:
+  "project_base_dir = os.environ['VIRTUAL_ENV']
+  "activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  "execfile(activate_this, dict(__file__=activate_this))
+"EOF
+nnoremap <C-Up> <C-W><bar>
