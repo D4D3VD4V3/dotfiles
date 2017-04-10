@@ -118,8 +118,8 @@ nnoremap <leader>gp :Ggrep<Space>
 nnoremap <leader>gm :Gmove<Space>
 nnoremap <leader>gb :Git branch<Space>
 nnoremap <leader>go :Git checkout<Space>
-nnoremap <leader>gps :GPush<CR>
-nnoremap <leader>gpl :GPull<CR>
+nnoremap <leader>gps :Gpush<CR>
+nnoremap <leader>gpl :Gpull<CR>
 nnoremap Q <nop>
 autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
 
