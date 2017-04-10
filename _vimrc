@@ -29,7 +29,10 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'tpope/vim-surround'
-
+Plugin 'tpope/vim-obsession' 
+Plugin 'tpope/vim-abolish'
+Plugin 'PeterRincker/vim-argumentative'
+Plugin 'airblade/vim-gitgutter'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -128,3 +131,17 @@ au BufNewFile,BufRead *.py
     \ set expandtab
     \ set autoindent
     \ set fileformat=unix
+
+"let g:airline#extensions#tabline#enabled = 1
+
+let g:airline#extensions#whitespace#enabled = 0
+
+let g:airline#extensions#branch#enabled = 1
+
+let g:airline#extensions#virtualenv#enabled = 1
+"let g:powerline_symbols = 'fancy' 
+let g:ctrlp_mru_files = 1
+let g:ctrlp_dotfiles = 0
+let g:ctrlp_show_hidden = 0
+let g:ctrlp_split_window = 0
+let g:ctrlp_max_files = 0 
