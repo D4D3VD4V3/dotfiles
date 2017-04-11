@@ -36,6 +36,7 @@ Plugin 'python-mode/python-mode'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
+set encoding=utf-8
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
@@ -48,8 +49,10 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 syntax enable
+set background=light
+colorscheme solarized
 let mapleader="\<Space>"
-set guifont=Consolas:h10
+set guifont=Fira\ Mono\ for\ Powerline:h10
 set number
 set relativenumber
 set undofile
@@ -68,7 +71,6 @@ set smartcase
 "nnoremap <C-Up> <C-W>|
 " Enable folding
 " Enable folding with the spacebar
-colorscheme basic-dark
 silent! nmap <F4> :NERDTreeToggle<CR>
 silent! map <F3> :NERDTreeFind<CR>
 
@@ -95,6 +97,8 @@ augroup END " }
 "EOF
 nmap <silent> <Leader>e :e $MYVIMRC<CR>
 nmap <leader>w :w!<cr>
+nmap <S-Enter> O<Esc>
+nmap <CR> o<Esc>
 " fugitive git bindings
 nnoremap <leader>ga :Git add %:p<CR><CR>
 nnoremap <leader>gs :Gstatus<CR>
@@ -118,35 +122,25 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 nnoremap Q <nop>
-"autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
-
-"au BufNewFile,BufRead *.py
-    "\ set tabstop=4
-    "\ set softtabstop=4
-    "\ set shiftwidth=4
-    "\ set textwidth=120
-    "\ set expandtab
-    "\ set autoindent
-    "\ set fileformat=unix
-
-"let g:airline#extensions#tabline#enabled=1
+autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
 
 let g:airline#extensions#whitespace#enabled=0
 let g:airline#extensions#branch#enabled=1
 let g:airline#extensions#virtualenv#enabled=1
+let g:airline#extensions#wordcount#enabled=1
+let g:airline#extensions#tabline#enabled=1
+let g:airline_powerline_fonts = 1
+
 let g:ctrlp_mru_files=1
 let g:ctrlp_dotfiles=0
 let g:ctrlp_show_hidden=0
 let g:ctrlp_split_window=0
 let g:ctrlp_max_files=0 
-let g:syntastic_check_open=1
 let g:ctrlp_map='<c-p>'
 let g:ctrlp_cmd='CtrlP'
-let python_highlight_all=1
-let g:airline#extensions#wordcount#enabled=1
-let g:airline#extensions#tabline#enabled=1
 
-"Pymode config
+let g:syntastic_check_open=1
+
 let g:pymode=1
 let g:pymode_trim_whitespaces=1
 let g:pymode_rope=1
@@ -158,5 +152,4 @@ let g:pymode_virtualenv=1
 let g:pymode_virtualenv_path=$VIRTUAL_ENV
 let g:pymode_lint=1
 let g:pymode_lint_on_fly=1
-
 let g:pymode_lint_options_pep8={'max_line_length': g:pymode_options_max_line_length}
