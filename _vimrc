@@ -16,7 +16,6 @@ Plugin 'VundleVim/Vundle.vim'
 " plugin on GitHub repo
 Plugin 'easymotion/vim-easymotion'
 Plugin 'junegunn/goyo.vim'
-Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -25,7 +24,7 @@ Plugin 'vim-syntastic/syntastic'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'scrooloose/nerdcommenter' 
 Plugin 'tpope/vim-fugitive'
-Plugin 'jmcantrell/vim-virtualenv'
+Plugin 'jmcantrell/vim-virtualenv' "python-mode also has virtualenv support?
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-obsession' 
 Plugin 'tpope/vim-abolish'
@@ -33,6 +32,9 @@ Plugin 'PeterRincker/vim-argumentative'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'Raimondi/delimitMate'
 Plugin 'python-mode/python-mode'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'junegunn/fzf.vim'
+Plugin 'junegunn/fzf'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -67,7 +69,10 @@ set foldmethod=indent
 set foldlevel=99
 set showmatch
 set smartcase
-
+:set guioptions-=m  "remove menu bar
+:set guioptions-=T  "remove toolbar
+:set guioptions-=r  "remove right-hand scroll bar
+:set guioptions-=L  "remove left-hand scroll bar
 "nnoremap <C-Up> <C-W>|
 " Enable folding
 " Enable folding with the spacebar
@@ -99,6 +104,7 @@ nmap <silent> <Leader>e :e $MYVIMRC<CR>
 nmap <leader>w :w!<cr>
 nmap <S-Enter> O<Esc>
 nmap <CR> o<Esc>
+nnoremap <C-P> :FZF<CR>
 " fugitive git bindings
 nnoremap <leader>ga :Git add %:p<CR><CR>
 nnoremap <leader>gs :Gstatus<CR>
@@ -131,15 +137,10 @@ let g:airline#extensions#wordcount#enabled=1
 let g:airline#extensions#tabline#enabled=1
 let g:airline_powerline_fonts = 1
 
-let g:ctrlp_mru_files=1
-let g:ctrlp_dotfiles=0
-let g:ctrlp_show_hidden=0
-let g:ctrlp_split_window=0
-let g:ctrlp_max_files=0 
-let g:ctrlp_map='<c-p>'
-let g:ctrlp_cmd='CtrlP'
-
-let g:syntastic_check_open=1
+let g:syntastic_auto_loc_list=1
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_check_on_open=1
+let g:syntastic_python_checkers=[] "I'm removing syntastic's python checkers because I've already got python-mode for that
 
 let g:pymode=1
 let g:pymode_trim_whitespaces=1
