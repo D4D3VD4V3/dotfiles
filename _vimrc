@@ -35,6 +35,7 @@ Plugin 'python-mode/python-mode'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf'
+Plugin 'junegunn/rainbow_parentheses.vim'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -69,10 +70,18 @@ set foldmethod=indent
 set foldlevel=99
 set showmatch
 set smartcase
+set showcmd
+set visualbell
+set noerrorbells
+set autoindent
+set autoread
+set wildmenu
 :set guioptions-=m  "remove menu bar
 :set guioptions-=T  "remove toolbar
 :set guioptions-=r  "remove right-hand scroll bar
 :set guioptions-=L  "remove left-hand scroll bar
+"Speeds up switching buffers
+set hid
 "nnoremap <C-Up> <C-W>|
 " Enable folding
 " Enable folding with the spacebar
@@ -116,7 +125,7 @@ nmap <silent> <Leader>e :e $MYVIMRC<CR>
 nmap <leader>w :w!<cr>
 nmap <S-Enter> O<Esc>
 nmap <CR> o<Esc>
-nnoremap <leader>cf :let @*=expand("%")<CR>
+nnoremap <leader>cf :let @*=expand("%:p")<CR>
 nnoremap <C-P> :FZF<CR>
 " fugitive git bindings
 nnoremap <leader>ga :Git add %:p<CR><CR>
@@ -142,6 +151,7 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 nnoremap Q <nop>
 autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
+"autocmd VimEnter * RainbowParentheses
 
   if !exists('g:airline_symbols')
     let g:airline_symbols = {}
