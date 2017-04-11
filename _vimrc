@@ -25,13 +25,14 @@ Plugin 'vim-syntastic/syntastic'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'scrooloose/nerdcommenter' 
 Plugin 'tpope/vim-fugitive'
-Plugin 'vim-scripts/indentpython.vim'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-obsession' 
 Plugin 'tpope/vim-abolish'
 Plugin 'PeterRincker/vim-argumentative'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'Raimondi/delimitMate'
+Plugin 'python-mode/python-mode'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -138,12 +139,24 @@ let g:ctrlp_dotfiles=0
 let g:ctrlp_show_hidden=0
 let g:ctrlp_split_window=0
 let g:ctrlp_max_files=0 
-let g:pymode=1
-let g:pymode_trim_whitespaces=1
-let g:pymode_rope=1
 let g:syntastic_check_open=1
 let g:ctrlp_map='<c-p>'
 let g:ctrlp_cmd='CtrlP'
 let python_highlight_all=1
 let g:airline#extensions#wordcount#enabled=1
 let g:airline#extensions#tabline#enabled=1
+
+"Pymode config
+let g:pymode=1
+let g:pymode_trim_whitespaces=1
+let g:pymode_rope=1
+let g:pymode_options_max_line_length=119
+let g:pymode_options_colorcolumn=1
+let g:pymode_quickfix_minheight=3
+let g:pymode_indent=1
+let g:pymode_virtualenv=1
+let g:pymode_virtualenv_path=$VIRTUAL_ENV
+let g:pymode_lint=1
+let g:pymode_lint_on_fly=1
+
+let g:pymode_lint_options_pep8={'max_line_length': g:pymode_options_max_line_length}
