@@ -59,7 +59,7 @@ set number
 set relativenumber
 set undofile
 set incsearch
-set hlsearch
+set nohlsearch
 set clipboard=unnamed
 set spell spelllang=en_us
 set ignorecase
@@ -100,10 +100,23 @@ augroup END " }
   "activate_this=os.path.join(project_base_dir, 'bin/activate_this.py')
   "execfile(activate_this, dict(__file__=activate_this))
 "EOF
+
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+nmap <leader>- <Plug>AirlineSelectPrevTab
+nmap <leader>+ <Plug>AirlineSelectNextTab
 nmap <silent> <Leader>e :e $MYVIMRC<CR>
 nmap <leader>w :w!<cr>
 nmap <S-Enter> O<Esc>
 nmap <CR> o<Esc>
+nnoremap <leader>cf :let @*=expand("%")<CR>
 nnoremap <C-P> :FZF<CR>
 " fugitive git bindings
 nnoremap <leader>ga :Git add %:p<CR><CR>
@@ -130,6 +143,13 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap Q <nop>
 autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
 
+  if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+  endif
+
+
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#whitespace#enabled=0
 let g:airline#extensions#branch#enabled=1
 let g:airline#extensions#virtualenv#enabled=1
