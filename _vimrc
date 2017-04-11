@@ -14,7 +14,6 @@ Plugin 'VundleVim/Vundle.vim'
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
-"Plugin 'Valloric/YouCompleteMe'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'junegunn/goyo.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
@@ -47,36 +46,28 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
-
+syntax enable
+let mapleader="\<Space>"
 set guifont=Consolas:h10
 set number
 set relativenumber
 set undofile
 set incsearch
-set nohlsearch
-syntax enable
-let mapleader = "\<Space>"
+set hlsearch
 set clipboard=unnamed
 set spell spelllang=en_us
-nnoremap <leader>f 1z=
-"split navigations
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-"nnoremap <C-Up> <C-W>|
-" Enable folding
+set ignorecase
+set backspace=indent,eol,start
+set numberwidth=5
 set foldmethod=indent
 set foldlevel=99
-" Enable folding with the spacebar
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:airline#extensions#tabline#enabled = 1
-colorscheme basic-dark
-let g:airline#extensions#wordcount#enabled = 1
 set showmatch
-let python_highlight_all = 1
+set smartcase
 
+"nnoremap <C-Up> <C-W>|
+" Enable folding
+" Enable folding with the spacebar
+colorscheme basic-dark
 silent! nmap <F4> :NERDTreeToggle<CR>
 silent! map <F3> :NERDTreeFind<CR>
 
@@ -85,7 +76,6 @@ silent! map <F3> :NERDTreeFind<CR>
 
 filetype plugin on
 
-nmap <silent> <Leader>e :e $MYVIMRC<CR>
 augroup reload_vimrc " {
     autocmd!
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
@@ -98,11 +88,11 @@ augroup END " }
 "import os
 "import sys
 "if 'VIRTUAL_ENV' in os.environ:
-  "project_base_dir = os.environ['VIRTUAL_ENV']
-  "activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  "project_base_dir=os.environ['VIRTUAL_ENV']
+  "activate_this=os.path.join(project_base_dir, 'bin/activate_this.py')
   "execfile(activate_this, dict(__file__=activate_this))
 "EOF
-nnoremap <C-Up> <C-W><bar>
+nmap <silent> <Leader>e :e $MYVIMRC<CR>
 nmap <leader>w :w!<cr>
 " fugitive git bindings
 nnoremap <leader>ga :Git add %:p<CR><CR>
@@ -120,28 +110,40 @@ nnoremap <leader>gb :Git branch<Space>
 nnoremap <leader>go :Git checkout<Space>
 nnoremap <leader>gps :Gpush<CR>
 nnoremap <leader>gpl :Gpull<CR>
+nnoremap <leader>f 1z=
+"split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 nnoremap Q <nop>
-autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
+"autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
 
-au BufNewFile,BufRead *.py
-    \ set tabstop=4
-    \ set softtabstop=4
-    \ set shiftwidth=4
-    \ set textwidth=120
-    \ set expandtab
-    \ set autoindent
-    \ set fileformat=unix
+"au BufNewFile,BufRead *.py
+    "\ set tabstop=4
+    "\ set softtabstop=4
+    "\ set shiftwidth=4
+    "\ set textwidth=120
+    "\ set expandtab
+    "\ set autoindent
+    "\ set fileformat=unix
 
-"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#enabled=1
 
-let g:airline#extensions#whitespace#enabled = 0
-
-let g:airline#extensions#branch#enabled = 1
-
-let g:airline#extensions#virtualenv#enabled = 1
-"let g:powerline_symbols = 'fancy' 
-let g:ctrlp_mru_files = 1
-let g:ctrlp_dotfiles = 0
-let g:ctrlp_show_hidden = 0
-let g:ctrlp_split_window = 0
-let g:ctrlp_max_files = 0 
+let g:airline#extensions#whitespace#enabled=0
+let g:airline#extensions#branch#enabled=1
+let g:airline#extensions#virtualenv#enabled=1
+let g:ctrlp_mru_files=1
+let g:ctrlp_dotfiles=0
+let g:ctrlp_show_hidden=0
+let g:ctrlp_split_window=0
+let g:ctrlp_max_files=0 
+let g:pymode=1
+let g:pymode_trim_whitespaces=1
+let g:pymode_rope=1
+let g:syntastic_check_open=1
+let g:ctrlp_map='<c-p>'
+let g:ctrlp_cmd='CtrlP'
+let python_highlight_all=1
+let g:airline#extensions#wordcount#enabled=1
+let g:airline#extensions#tabline#enabled=1
