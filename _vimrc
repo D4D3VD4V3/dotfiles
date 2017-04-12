@@ -36,6 +36,10 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/rainbow_parentheses.vim'
+"Plugin 'vim-scripts/Gundo'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-session'
+Plugin 'mtth/scratch.vim'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -57,6 +61,7 @@ colorscheme solarized
 let mapleader="\<Space>"
 set guifont=Fira\ Mono\ for\ Powerline:h10
 set number
+set wrap
 set relativenumber
 set undofile
 set incsearch
@@ -71,7 +76,6 @@ set foldlevel=99
 set showmatch
 set smartcase
 set showcmd
-set visualbell
 set noerrorbells
 set autoindent
 set autoread
@@ -85,6 +89,7 @@ set hid
 "nnoremap <C-Up> <C-W>|
 " Enable folding
 " Enable folding with the spacebar
+silent! nmap <F5> :GundoToggle<CR>
 silent! nmap <F4> :NERDTreeToggle<CR>
 silent! map <F3> :NERDTreeFind<CR>
 
@@ -110,6 +115,10 @@ augroup END " }
   "execfile(activate_this, dict(__file__=activate_this))
 "EOF
 
+noremap <Leader>sa ggVG
+noremap U <C-r>
+noremap H 0
+noremap L $
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
 nmap <leader>3 <Plug>AirlineSelectTab3
@@ -173,8 +182,17 @@ let g:syntastic_check_on_open=1
 let g:syntastic_python_checkers=[] "I'm removing syntastic's python checkers because I've already got python-mode for that
 
 let g:pymode=1
+let g:pymode_syntax=0
+let g:pymode_motion=1
+let g:pymode_doc=1
+let g:pymode_doc_bind='K'
+let g:pymode_run=1
+let g:pymode_run_bind='<leader>r'
 let g:pymode_trim_whitespaces=1
-let g:pymode_rope=1
+let g:pymode_rope=0
+let g:pymode_rope_completion=1
+let g:pymode_rope_autoimport=0
+let g:pymode_rope_rename_bind='<C-c>rr'
 let g:pymode_options_max_line_length=119
 let g:pymode_options_colorcolumn=1
 let g:pymode_quickfix_minheight=3
