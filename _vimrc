@@ -39,9 +39,10 @@ Plugin 'junegunn/fzf'
 "Plugin 'xolox/vim-misc'
 "Plugin 'xolox/vim-session'
 Plugin 'mtth/scratch.vim'
-Plugin 'SirVer/ultisnips'
+"Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'tpope/vim-repeat'
+Plugin 'AndrewRadev/splitjoin.vim'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -51,9 +52,14 @@ syntax enable
 set background=light
 colorscheme solarized
 let mapleader="\<Space>"
+set cursorline
+set cursorcolumn
 set guifont=Fira\ Mono\ for\ Powerline:h8
 set number
-set wrap
+set nowrap
+set shortmess+=I
+"set confirm
+set scrolloff=5
 set relativenumber
 set undofile
 set incsearch
@@ -62,13 +68,11 @@ set clipboard=unnamed
 set spell spelllang=en_us
 set ignorecase
 set backspace=indent,eol,start
-set numberwidth=5
 set foldmethod=indent
 set foldlevel=99
 set showmatch
 set smartcase
 set showcmd
-set noerrorbells
 set autoindent
 set autoread
 set wildmenu
@@ -78,7 +82,6 @@ set wildmenu
 :set guioptions-=L  "remove left-hand scroll bar
 "Speeds up switching buffers
 set hid
-"nnoremap <C-Up> <C-W>|
 " Enable folding
 " Enable folding with the spacebar
 filetype plugin on
@@ -88,7 +91,14 @@ augroup reload_vimrc " {
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup END " }
 
-noremap <Leader>sa ggVG
+augroup tamebuffers
+    autocmd!
+    autocmd FileType * setlocal number
+    autocmd FileType * setlocal relativenumber
+augroup END
+"Show line numbers in netrw
+let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
+noremap <Leader>a ggVG
 noremap U <C-r>
 noremap H 0
 noremap L $
@@ -108,14 +118,10 @@ nmap <leader>w :w!<cr>
 nmap <S-Enter> O<Esc>
 nmap <CR> o<Esc>
 
-nnoremap x d
-nnoremap X D
-nnoremap d "_d
-nnoremap dd "_dd
-
 nnoremap <F3> :Lexplore "getcwd()"<CR>
 nnoremap <leader>cf :let @*=expand("%:p")<CR>
 nnoremap <C-P> :FZF<CR>
+
 " fugitive git bindings
 nnoremap <leader>ga :Git add %:p<CR><CR>
 nnoremap <leader>gs :Gstatus<CR>
@@ -133,18 +139,17 @@ nnoremap <leader>go :Git checkout<Space>
 nnoremap <leader>gps :Gpush<CR>
 nnoremap <leader>gpl :Gpull<CR>
 nnoremap <leader>f 1z=
+
 "split navigations
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 nnoremap Q <nop>
-autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
 
   if !exists('g:airline_symbols')
     let g:airline_symbols = {}
   endif
-
 
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#syntastic#enabled = 1
@@ -170,8 +175,8 @@ let g:pymode_doc_bind='K'
 let g:pymode_run=1
 let g:pymode_run_bind='<leader>r'
 let g:pymode_trim_whitespaces=1
-let g:pymode_rope=0
-let g:pymode_rope_completion=1
+let g:pymode_rope=1
+let g:pymode_rope_completion=0
 let g:pymode_rope_autoimport=0
 let g:pymode_rope_rename_bind='<C-c>rr'
 let g:pymode_options_max_line_length=119
@@ -179,13 +184,19 @@ let g:pymode_options_colorcolumn=1
 let g:pymode_quickfix_minheight=3
 let g:pymode_indent=1
 let g:pymode_virtualenv=1
-let g:pymode_virtualenv_path=$VIRTUAL_ENV
 let g:pymode_lint=1
 let g:pymode_lint_on_fly=1
 let g:pymode_lint_options_pep8={'max_line_length': g:pymode_options_max_line_length}
 
-let g:UltiSnipsSnippetsDir='/Users/david/.vim/mysnippets'
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-let g:UltiSnipsEditSplit="vertical"
+"let g:UltiSnipsSnippetsDir='/Users/david/.vim/mysnippets'
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+"let g:UltiSnipsEditSplit="vertical"
+
+let g:netrw_liststyle=3
+"let g:airline_section_b = airline#section#create('%{virtualenv#statusline()}')
+let g:solarized_contrast="high"
+
+"Maximize window on startup
+au GUIEnter * simalt ~x
