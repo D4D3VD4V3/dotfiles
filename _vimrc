@@ -85,9 +85,10 @@ syntax enable
 
 filetype plugin on
 
-augroup reload_vimrc 
+augroup reload_vimrc_and_gen_tags
     autocmd!
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
+    autocmd BufWritePost *.py :silent !start /min ctags -R 
 augroup END 
 
 noremap <Leader>a ggVG
@@ -195,3 +196,4 @@ set background=dark
 au GUIEnter * simalt ~x
 
 let g:virtualenv_auto_activate=1
+map <f12> :!start /min ctags -R .<cr>
