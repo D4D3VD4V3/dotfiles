@@ -20,8 +20,8 @@ Plugin 'VundleVim/Vundle.vim'
 "Plugin 'scrooloose/nerdtree'
 "Plugin 'tpope/vim-obsession' 
 "Plugin 'vim-scripts/Gundo'
-"Plugin 'xolox/vim-misc'
-"Plugin 'xolox/vim-session'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-session'
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'PeterRincker/vim-argumentative'
 Plugin 'Raimondi/delimitMate'
@@ -85,16 +85,11 @@ syntax enable
 
 filetype plugin on
 
-augroup reload_vimrc " {
+augroup reload_vimrc 
     autocmd!
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
-augroup END " }
+augroup END 
 
-augroup tamebuffers
-    autocmd!
-    autocmd FileType * setlocal number
-    autocmd FileType * setlocal relativenumber
-augroup END
 noremap <Leader>a ggVG
 
 nmap <leader>1 <Plug>AirlineSelectTab1
@@ -156,7 +151,6 @@ let g:airline#extensions#virtualenv#enabled=1
 let g:airline#extensions#whitespace#enabled=0
 let g:airline_detect_modified=1
 let g:airline_powerline_fonts = 1
-"let g:airline_section_b = airline#section#create('%{virtualenv#statusline()}')
 
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list=1
@@ -168,11 +162,11 @@ let g:pymode_doc=1
 let g:pymode_doc_bind='K'
 let g:pymode_indent=1
 let g:pymode_lint=1
+let g:pymode_options_max_line_length=119
 let g:pymode_lint_on_fly=1
 let g:pymode_lint_options_pep8={'max_line_length': g:pymode_options_max_line_length}
 let g:pymode_motion=1
 let g:pymode_options_colorcolumn=1
-let g:pymode_options_max_line_length=119
 let g:pymode_quickfix_minheight=3
 let g:pymode_rope=1
 let g:pymode_rope_autoimport=0
@@ -182,9 +176,8 @@ let g:pymode_run=1
 let g:pymode_run_bind='<leader>r'
 let g:pymode_syntax=0
 let g:pymode_trim_whitespaces=1
-let g:pymode_virtualenv=1
+"let g:pymode_virtualenv=1
 
-"let g:UltiSnipsSnippetsDir='/Users/david/.vim/mysnippets'
 "let g:UltiSnipsExpandTrigger="<tab>"
 "let g:UltiSnipsJumpForwardTrigger="<c-b>"
 "let g:UltiSnipsJumpBackwardTrigger="<c-z>"
@@ -195,6 +188,9 @@ let g:netrw_liststyle=3
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 
 let g:solarized_contrast="high"
+set background=dark
 
 "Maximize window on startup
 au GUIEnter * simalt ~x
+
+let g:virtualenv_auto_activate=1
