@@ -111,6 +111,7 @@ nmap <CR> o<Esc>
 nnoremap <F3> :Lexplore "getcwd()"<CR>
 nnoremap <leader>cf :let @*=expand("%:p")<CR>
 nnoremap <C-P> :FZF<CR>
+nmap <leader>s :vs<CR><C-L><C-F>:set scb!<CR><C-H>:set scb!<CR>
 
 " fugitive git bindings
 nnoremap <leader>ga :Git add %:p<CR><CR>
