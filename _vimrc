@@ -42,6 +42,7 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'vim-syntastic/syntastic' 
+Plugin 'ervandew/supertab'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -139,9 +140,9 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 nnoremap Q <nop>
 
-  if !exists('g:airline_symbols')
+if !exists('g:airline_symbols')
     let g:airline_symbols = {}
-  endif
+endif
 
 "let g:airline#extensions#wordcount#enabled=1
 let g:airline#extensions#branch#enabled=1
@@ -164,36 +165,40 @@ let g:pymode_doc=1
 let g:pymode_doc_bind='K'
 let g:pymode_indent=1
 let g:pymode_lint=1
+let g:pymode_lint_checkers = ['pyflakes', 'pep8']
 let g:pymode_options_max_line_length=119
-let g:pymode_lint_on_fly=1
+let g:pymode_lint_on_fly=0
 let g:pymode_lint_options_pep8={'max_line_length': g:pymode_options_max_line_length}
 let g:pymode_motion=1
 let g:pymode_options_colorcolumn=1
 let g:pymode_quickfix_minheight=3
 let g:pymode_rope=1
-let g:pymode_rope_autoimport=0
+let g:pymode_rope_lookup_project=0
+let g:pymode_rope_autoimport=1
 let g:pymode_rope_completion=0
-let g:pymode_rope_rename_bind='<C-c>rr'
+let g:pymode_rope_rename_bind='<c-c>rr'
 let g:pymode_run=1
 let g:pymode_run_bind='<leader>r'
 let g:pymode_syntax=0
 let g:pymode_trim_whitespaces=1
-"let g:pymode_virtualenv=1
+let g:pymode_virtualenv=1
+"let g:jedi#smart_auto_mappings = 0
+"let g:jedi#documentation_command=0
 
-"let g:UltiSnipsExpandTrigger="<tab>"
-"let g:UltiSnipsJumpForwardTrigger="<c-b>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-"let g:UltiSnipsEditSplit="vertical"
+"let g:ultisnipsexpandtrigger="<tab>"
+"let g:ultisnipsjumpforwardtrigger="<c-b>"
+"let g:ultisnipsjumpbackwardtrigger="<c-z>"
+"let g:ultisnipseditsplit="vertical"
 
 let g:netrw_liststyle=3
-"Show line numbers in netrw
+"show line numbers in netrw
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 
 let g:solarized_contrast="high"
-set background=dark
+"set background=dark
 
-"Maximize window on startup
-au GUIEnter * simalt ~x
+"maximize window on startup
+au guienter * simalt ~x
 
 let g:virtualenv_auto_activate=1
-map <f12> :!start /min ctags -R .<cr>
+map <f12> :!start /min ctags -r .<cr>
