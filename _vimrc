@@ -12,13 +12,6 @@ call vundle#begin('$HOME/vimfiles/bundle/')
 Plugin 'VundleVim/Vundle.vim'
 
 " Keep Plugin commands between vundle#begin/end.
-"Plugin 'SirVer/ultisnips'
-"Plugin 'Yggdroot/indentLine'
-"Plugin 'airblade/vim-gitgutter'
-"Plugin 'honza/vim-snippets'
-"Plugin 'junegunn/rainbow_parentheses.vim'
-"Plugin 'tpope/vim-obsession' 
-"Plugin 'vim-scripts/Gundo'
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-session'
 Plugin 'AndrewRadev/splitjoin.vim'
@@ -49,7 +42,7 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 set encoding=utf-8
 " Put your non-Plugin stuff after this line
-"set confirm
+
 colorscheme solarized
 let mapleader="\<Space>"
 set autoindent
@@ -114,10 +107,9 @@ nmap <leader>w :w!<cr>
 nmap <S-Enter> O<Esc>
 nmap <CR> o<Esc>
 
-"nnoremap <F3> :Lexplore "getcwd()"<CR>
 nnoremap <leader>cf :let @*=expand("%:p")<CR>
 nnoremap <C-P> :FZF<CR>
-nmap <leader>s :vs<CR><C-L><C-F>:set scb!<CR><C-H>:set scb!<CR>
+nmap <leader>s :vs<CR><C-L><C-F>:set scb<CR><C-H>:set scb<CR>
 
 " fugitive git bindings
 nnoremap <leader>ga :Git add %:p<CR><CR>
@@ -148,7 +140,6 @@ if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
 
-"let g:airline#extensions#wordcount#enabled=1
 let g:airline#extensions#branch#enabled=1
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
@@ -162,7 +153,7 @@ let g:airline_powerline_fonts = 1
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list=1
 let g:syntastic_check_on_open=1
-let g:syntastic_python_checkers=[] "I'm removing syntastic's python checkers because I've already got python-mode for that
+let g:syntastic_python_checkers=[] 
 
 let g:pymode=1
 let g:pymode_doc=1
@@ -173,6 +164,7 @@ let g:pymode_lint_checkers = ['pyflakes', 'pep8']
 let g:pymode_options_max_line_length=119
 let g:pymode_lint_on_fly=0
 let g:pymode_lint_options_pep8={'max_line_length': g:pymode_options_max_line_length}
+let g:pymode_lint_todo_symbol = 'TD'
 let g:pymode_motion=1
 let g:pymode_options_colorcolumn=1
 let g:pymode_quickfix_minheight=3
@@ -186,22 +178,9 @@ let g:pymode_run_bind='<leader>r'
 let g:pymode_syntax=0
 let g:pymode_trim_whitespaces=1
 let g:pymode_virtualenv=1
-let g:pymode_lint_todo_symbol = 'TD'
 let g:pymode_rope_rename_bind = '<C-P>r'
-"let g:jedi#smart_auto_mappings = 0
-"let g:jedi#documentation_command=0
-
-"let g:ultisnipsexpandtrigger="<tab>"
-"let g:ultisnipsjumpforwardtrigger="<c-b>"
-"let g:ultisnipsjumpbackwardtrigger="<c-z>"
-"let g:ultisnipseditsplit="vertical"
-
-"let g:netrw_liststyle=3
-"show line numbers in netrw
-"let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 
 let g:solarized_contrast="high"
-"set background=dark
 
 "maximize window on startup
 au guienter * simalt ~x
