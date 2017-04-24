@@ -12,13 +12,12 @@ call vundle#begin('$HOME/vimfiles/bundle/')
 Plugin 'VundleVim/Vundle.vim'
 
 " Keep Plugin commands between vundle#begin/end.
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-session'
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'PeterRincker/vim-argumentative'
 Plugin 'Raimondi/delimitMate'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'easymotion/vim-easymotion'
+Plugin 'ervandew/supertab'
 Plugin 'jmcantrell/vim-virtualenv' "python-mode also has virtualenv support?
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
@@ -36,7 +35,8 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'vim-syntastic/syntastic' 
-Plugin 'ervandew/supertab'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-session'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -46,6 +46,7 @@ set encoding=utf-8
 colorscheme solarized
 let mapleader="\<Space>"
 set autoindent
+set smartindent
 set autoread
 set background=light
 set backspace=indent,eol,start
@@ -64,7 +65,7 @@ set nohlsearch
 set nowrap
 set number
 set relativenumber
-set scrolloff=5
+set scrolloff=9
 set shortmess+=I
 set showcmd
 set showmatch
@@ -72,12 +73,12 @@ set smartcase
 set spell spelllang=en_us
 set undofile
 set wildmenu
-syntax enable
 :set guioptions-=m  "remove menu bar
 :set guioptions-=T  "remove toolbar
 :set guioptions-=r  "remove right-hand scroll bar
 :set guioptions-=L  "remove left-hand scroll bar
 
+syntax enable
 filetype plugin on
 
 augroup reload_vimrc_and_gen_tags
@@ -85,6 +86,9 @@ augroup reload_vimrc_and_gen_tags
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
     autocmd BufWritePost *.py :silent !start /min ctags -R 
 augroup END 
+
+autocmd BufWrite *.py :silent PymodeLintAuto
+autocmd FileType html,css EmmetInstall
 
 noremap <Leader>a ggVG
 
@@ -109,7 +113,7 @@ nmap <CR> o<Esc>
 
 nnoremap <leader>cf :let @*=expand("%:p")<CR>
 nnoremap <C-P> :FZF<CR>
-nmap <leader>s :vs<CR><C-L><C-F>:set scb<CR><C-H>:set scb<CR>
+nmap <leader>v :vs<CR><C-L><C-F>:set scb<CR><C-H>:set scb<CR>
 
 " fugitive git bindings
 nnoremap <leader>ga :Git add %:p<CR><CR>
@@ -190,4 +194,3 @@ map <f12> :!start /min ctags -r .<cr>
 
 let g:user_emmet_install_global=0
 let g:user_emmet_leader_key="<C-M>"
-autocmd FileType html,css EmmetInstall
