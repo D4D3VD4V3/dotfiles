@@ -17,7 +17,6 @@ Plugin 'VundleVim/Vundle.vim'
 "Plugin 'airblade/vim-gitgutter'
 "Plugin 'honza/vim-snippets'
 "Plugin 'junegunn/rainbow_parentheses.vim'
-"Plugin 'scrooloose/nerdtree'
 "Plugin 'tpope/vim-obsession' 
 "Plugin 'vim-scripts/Gundo'
 Plugin 'xolox/vim-misc'
@@ -31,9 +30,11 @@ Plugin 'jmcantrell/vim-virtualenv' "python-mode also has virtualenv support?
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/goyo.vim'
+Plugin 'mattn/emmet-vim'
 Plugin 'mtth/scratch.vim'
 Plugin 'python-mode/python-mode'
 Plugin 'scrooloose/nerdcommenter' 
+Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
@@ -94,6 +95,9 @@ augroup END
 
 noremap <Leader>a ggVG
 
+silent! nmap <F4> :NERDTreeToggle<CR>
+silent! nmap <F3> :NERDTreeFind<CR>
+
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>airlineSelectTab2
 nmap <leader>3 <Plug>AirlineSelectTab3
@@ -110,7 +114,7 @@ nmap <leader>w :w!<cr>
 nmap <S-Enter> O<Esc>
 nmap <CR> o<Esc>
 
-nnoremap <F3> :Lexplore "getcwd()"<CR>
+"nnoremap <F3> :Lexplore "getcwd()"<CR>
 nnoremap <leader>cf :let @*=expand("%:p")<CR>
 nnoremap <C-P> :FZF<CR>
 nmap <leader>s :vs<CR><C-L><C-F>:set scb!<CR><C-H>:set scb!<CR>
@@ -190,9 +194,9 @@ let g:pymode_virtualenv=1
 "let g:ultisnipsjumpbackwardtrigger="<c-z>"
 "let g:ultisnipseditsplit="vertical"
 
-let g:netrw_liststyle=3
+"let g:netrw_liststyle=3
 "show line numbers in netrw
-let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
+"let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 
 let g:solarized_contrast="high"
 "set background=dark
@@ -202,3 +206,7 @@ au guienter * simalt ~x
 
 let g:virtualenv_auto_activate=1
 map <f12> :!start /min ctags -r .<cr>
+
+let g:user_emmet_install_global=0
+let g:user_emmet_leader_key="<C-E>"
+autocmd FileType html,css EmmetInstall
