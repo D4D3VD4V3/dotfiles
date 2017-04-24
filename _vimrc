@@ -186,6 +186,8 @@ let g:pymode_run_bind='<leader>r'
 let g:pymode_syntax=0
 let g:pymode_trim_whitespaces=1
 let g:pymode_virtualenv=1
+let g:pymode_lint_todo_symbol = 'TD'
+let g:pymode_rope_rename_bind = '<C-P>r'
 "let g:jedi#smart_auto_mappings = 0
 "let g:jedi#documentation_command=0
 
@@ -208,5 +210,5 @@ let g:virtualenv_auto_activate=1
 map <f12> :!start /min ctags -r .<cr>
 
 let g:user_emmet_install_global=0
-let g:user_emmet_leader_key="<C-E>"
+let g:user_emmet_leader_key="<C-M>"
 autocmd FileType html,css EmmetInstall
