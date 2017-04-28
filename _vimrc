@@ -40,9 +40,9 @@ Plugin 'xolox/vim-session'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-set encoding=utf-8
 " Put your non-Plugin stuff after this line
 
+set encoding=utf-8
 colorscheme solarized
 let mapleader="\<Space>"
 set autoindent
@@ -60,6 +60,7 @@ set guifont=Fira\ Mono\ for\ Powerline:h8
 set hid
 set ignorecase
 set incsearch
+"To keep airline always visible
 set laststatus=2
 set nohlsearch
 set nowrap
@@ -84,7 +85,7 @@ filetype plugin on
 augroup reload_vimrc_and_gen_tags
     autocmd!
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
-    autocmd BufWritePost *.py :silent !start /min ctags -R 
+    autocmd BufWritePost *.py :silent !start /min ctags -R --python-kinds=-i
 augroup END 
 
 autocmd BufWrite *.py :silent PymodeLintAuto
@@ -171,12 +172,11 @@ let g:pymode_lint_options_pep8={'max_line_length': g:pymode_options_max_line_len
 let g:pymode_lint_todo_symbol = 'TD'
 let g:pymode_motion=1
 let g:pymode_options_colorcolumn=1
-let g:pymode_quickfix_minheight=3
+let g:pymode_quickfix_minheight=10
 let g:pymode_rope=1
 let g:pymode_rope_lookup_project=0
 let g:pymode_rope_autoimport=1
 let g:pymode_rope_completion=0
-let g:pymode_rope_rename_bind='<c-c>rr'
 let g:pymode_run=1
 let g:pymode_run_bind='<leader>r'
 let g:pymode_syntax=0
