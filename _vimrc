@@ -18,10 +18,12 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'ervandew/supertab'
-Plugin 'jmcantrell/vim-virtualenv' "python-mode also has virtualenv support?
+Plugin 'jmcantrell/vim-virtualenv'
+Plugin 'jremmen/vim-ripgrep'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/goyo.vim'
+Plugin 'majutsushi/tagbar'
 Plugin 'mattn/emmet-vim'
 Plugin 'mtth/scratch.vim'
 Plugin 'python-mode/python-mode'
@@ -37,7 +39,6 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'vim-syntastic/syntastic' 
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-session'
-Plugin 'jremmen/vim-ripgrep'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -52,8 +53,8 @@ set autoread
 set background=light
 set backspace=indent,eol,start
 set clipboard=unnamed
-set cursorcolumn
-set cursorline
+"set cursorcolumn
+"set cursorline
 set foldlevel=99
 set foldmethod=indent
 set guifont=Fira\ Mono\ for\ Powerline:h8
@@ -99,6 +100,7 @@ noremap <Leader>a ggVG
 silent! nmap <F4> :NERDTreeToggle<CR>
 silent! nmap <F3> :NERDTreeFind<CR>
 
+silent! nmap <F8> :TagbarToggle<CR>
 
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>airlineSelectTab2
@@ -143,6 +145,7 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+"No Ex mode ugh
 nnoremap Q <nop>
 
 if !exists('g:airline_symbols')
@@ -194,9 +197,14 @@ let g:solarized_contrast="high"
 au guienter * simalt ~x
 
 let g:virtualenv_auto_activate=1
-map <f12> :!start /min ctags -r .<cr>
+map <f12> :silent !start /min ctags -R --python-kinds=-i<cr>
 
 let g:user_emmet_install_global=0
 let g:user_emmet_leader_key="<C-M>"
 
 let NERDTreeShowLineNumbers=1
+
+let g:tagbar_autofocus = 1
+let g:tagbar_compact = 1
+let g:tagbar_show_linenumbers = 2
+let g:tagbar_iconchars = ['▶', '▼']
