@@ -37,6 +37,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'vim-syntastic/syntastic' 
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-session'
+Plugin 'jremmen/vim-ripgrep'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -90,11 +91,14 @@ augroup END
 
 autocmd BufWrite *.py :silent PymodeLintAuto
 autocmd FileType html,css EmmetInstall
+autocmd FileType nerdtree setlocal relativenumber
+autocmd QuickFixCmdPost * cwindow
 
 noremap <Leader>a ggVG
 
 silent! nmap <F4> :NERDTreeToggle<CR>
 silent! nmap <F3> :NERDTreeFind<CR>
+
 
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>airlineSelectTab2
@@ -109,8 +113,8 @@ nmap <leader>- <Plug>AirlineSelectPrevTab
 nmap <leader>+ <Plug>AirlineSelectNextTab
 nmap <silent> <Leader>e :e $MYVIMRC<CR>
 nmap <leader>w :w!<cr>
-nmap <S-Enter> O<Esc>
-nmap <CR> o<Esc>
+"nmap <S-Enter> O<Esc>
+"nmap <CR> o<Esc>
 
 nnoremap <leader>cf :let @*=expand("%:p")<CR>
 nnoremap <C-P> :FZF<CR>
@@ -194,3 +198,5 @@ map <f12> :!start /min ctags -r .<cr>
 
 let g:user_emmet_install_global=0
 let g:user_emmet_leader_key="<C-M>"
+
+let NERDTreeShowLineNumbers=1
