@@ -37,6 +37,7 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'vim-syntastic/syntastic' 
+Plugin 'wellle/targets.vim'
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-session'
 " All of your Plugins must be added before the following line
@@ -57,7 +58,7 @@ set clipboard=unnamed
 "set cursorline
 set foldlevel=99
 set foldmethod=indent
-set guifont=Fira\ Mono\ for\ Powerline:h8
+set guifont=Fira\ Mono\ for\ Powerline:h10
 "Speeds up switching buffers
 set hid
 set ignorecase
@@ -91,6 +92,7 @@ augroup reload_vimrc_and_gen_tags
 augroup END 
 
 autocmd BufWrite *.py :silent PymodeLintAuto
+autocmd BufWritePost *.py :silent PymodeLint
 autocmd FileType html,css EmmetInstall
 autocmd FileType nerdtree setlocal relativenumber
 autocmd QuickFixCmdPost * cwindow
@@ -149,18 +151,18 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap Q <nop>
 
 if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
+    let g:airline_symbols={}
 endif
 
 let g:airline#extensions#branch#enabled=1
-let g:airline#extensions#syntastic#enabled = 1
-let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#syntastic#enabled=1
+let g:airline#extensions#tabline#buffer_idx_mode=1
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#tab_nr_type=2
 let g:airline#extensions#virtualenv#enabled=1
 let g:airline#extensions#whitespace#enabled=0
 let g:airline_detect_modified=1
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts=1
 
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list=1
@@ -172,11 +174,11 @@ let g:pymode_doc=1
 let g:pymode_doc_bind='K'
 let g:pymode_indent=1
 let g:pymode_lint=1
-let g:pymode_lint_checkers = ['pyflakes', 'pep8']
+let g:pymode_lint_checkers=['pyflakes', 'pep8']
 let g:pymode_options_max_line_length=119
 let g:pymode_lint_on_fly=0
 let g:pymode_lint_options_pep8={'max_line_length': g:pymode_options_max_line_length}
-let g:pymode_lint_todo_symbol = 'TD'
+let g:pymode_lint_todo_symbol='TD'
 let g:pymode_motion=1
 let g:pymode_options_colorcolumn=1
 let g:pymode_quickfix_minheight=10
@@ -189,7 +191,7 @@ let g:pymode_run_bind='<leader>r'
 let g:pymode_syntax=0
 let g:pymode_trim_whitespaces=1
 let g:pymode_virtualenv=1
-let g:pymode_rope_rename_bind = '<C-P>r'
+let g:pymode_rope_rename_bind='<C-P>r'
 
 let g:solarized_contrast="high"
 
@@ -204,7 +206,11 @@ let g:user_emmet_leader_key="<C-M>"
 
 let NERDTreeShowLineNumbers=1
 
-let g:tagbar_autofocus = 1
-let g:tagbar_compact = 1
-let g:tagbar_show_linenumbers = 2
-let g:tagbar_iconchars = ['▶', '▼']
+let g:tagbar_autofocus=1
+let g:tagbar_compact=1
+let g:tagbar_show_linenumbers=2
+let g:tagbar_iconchars=['▶', '▼']
+
+let g:sneak#label=1
+
+let g:session_autoload = 'no'
