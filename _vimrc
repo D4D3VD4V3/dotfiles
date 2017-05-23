@@ -16,8 +16,7 @@ Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'PeterRincker/vim-argumentative'
 Plugin 'Raimondi/delimitMate'
 Plugin 'alvan/vim-closetag'
-"Plugin 'davidhalter/jedi-vim'
-Plugin 'easymotion/vim-easymotion'
+Plugin 'davidhalter/jedi-vim'
 Plugin 'ervandew/supertab'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'jremmen/vim-ripgrep'
@@ -76,6 +75,9 @@ set smartcase
 set spell spelllang=en_us
 set undofile
 set wildmenu
+
+set noeb vb t_vb=
+
 :set guioptions-=m  "remove menu bar
 :set guioptions-=T  "remove toolbar
 :set guioptions-=r  "remove right-hand scroll bar
@@ -97,8 +99,8 @@ autocmd QuickFixCmdPost * cwindow
 
 noremap <Leader>a ggVG
 
-silent! nmap <F4> :NERDTreeToggle<CR>
 silent! nmap <F3> :NERDTreeFind<CR>
+silent! nmap <F4> :NERDTreeToggle<CR>
 
 silent! nmap <F8> :TagbarToggle<CR>
 
@@ -167,8 +169,7 @@ let g:syntastic_check_on_open=1
 let g:syntastic_python_checkers=[] 
 
 let g:pymode=1
-let g:pymode_doc=1
-let g:pymode_doc_bind='K'
+let g:pymode_doc=0
 let g:pymode_indent=1
 let g:pymode_lint=1
 let g:pymode_lint_checkers=['pyflakes', 'pep8']
@@ -209,3 +210,5 @@ let g:tagbar_iconchars=['▶', '▼']
 
 let g:session_autoload = 'no'
 let g:session_autosave = 'yes'
+
+let g:jedi#completions_enabled = 0
