@@ -15,6 +15,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'PeterRincker/vim-argumentative'
 Plugin 'Raimondi/delimitMate'
+Plugin 'alvan/vim-closetag'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'ervandew/supertab'
@@ -187,11 +188,12 @@ let g:pymode_rope_lookup_project=0
 let g:pymode_rope_autoimport=1
 let g:pymode_rope_completion=0
 let g:pymode_run=1
-let g:pymode_run_bind='<leader>r'
+"let g:pymode_run_bind='<leader>r'
 let g:pymode_syntax=0
 let g:pymode_trim_whitespaces=1
 let g:pymode_virtualenv=1
-let g:pymode_rope_rename_bind='<C-P>r'
+"Find a better keybinding
+let g:pymode_rope_rename_bind='<C-C>r'
 
 let g:solarized_contrast="high"
 
@@ -211,6 +213,5 @@ let g:tagbar_compact=1
 let g:tagbar_show_linenumbers=2
 let g:tagbar_iconchars=['▶', '▼']
 
-let g:sneak#label=1
-
 let g:session_autoload = 'no'
+let g:session_autosave = 'yes'
