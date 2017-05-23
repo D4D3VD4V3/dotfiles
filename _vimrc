@@ -16,17 +16,15 @@ Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'PeterRincker/vim-argumentative'
 Plugin 'Raimondi/delimitMate'
 Plugin 'alvan/vim-closetag'
-Plugin 'davidhalter/jedi-vim'
+"Plugin 'davidhalter/jedi-vim'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'ervandew/supertab'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'jremmen/vim-ripgrep'
 Plugin 'junegunn/fzf'
-Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/goyo.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'mattn/emmet-vim'
-Plugin 'mtth/scratch.vim'
 Plugin 'python-mode/python-mode'
 Plugin 'scrooloose/nerdcommenter' 
 Plugin 'scrooloose/nerdtree'
@@ -93,7 +91,6 @@ augroup reload_vimrc_and_gen_tags
 augroup END 
 
 autocmd BufWrite *.py :silent PymodeLintAuto
-autocmd BufWritePost *.py :silent PymodeLint
 autocmd FileType html,css EmmetInstall
 autocmd FileType nerdtree setlocal relativenumber
 autocmd QuickFixCmdPost * cwindow
@@ -141,7 +138,6 @@ nnoremap <leader>gb :Git branch<Space>
 nnoremap <leader>go :Git checkout<Space>
 nnoremap <leader>gps :Gpush<CR>
 nnoremap <leader>gpl :Gpull<CR>
-nnoremap <leader>f 1z=
 
 "split navigations
 nnoremap <C-J> <C-W><C-J>
@@ -177,18 +173,16 @@ let g:pymode_indent=1
 let g:pymode_lint=1
 let g:pymode_lint_checkers=['pyflakes', 'pep8']
 let g:pymode_options_max_line_length=119
-let g:pymode_lint_on_fly=0
+let g:pymode_lint_on_fly=1
 let g:pymode_lint_options_pep8={'max_line_length': g:pymode_options_max_line_length}
 let g:pymode_lint_todo_symbol='TD'
 let g:pymode_motion=1
 let g:pymode_options_colorcolumn=1
-let g:pymode_quickfix_minheight=10
 let g:pymode_rope=1
 let g:pymode_rope_lookup_project=0
 let g:pymode_rope_autoimport=1
-let g:pymode_rope_completion=0
-let g:pymode_run=1
-"let g:pymode_run_bind='<leader>r'
+let g:pymode_rope_completion=1
+let g:pymode_rope_complete_on_dot = 1
 let g:pymode_syntax=0
 let g:pymode_trim_whitespaces=1
 let g:pymode_virtualenv=1
