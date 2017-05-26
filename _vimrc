@@ -16,7 +16,6 @@ Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'PeterRincker/vim-argumentative'
 Plugin 'Raimondi/delimitMate'
 Plugin 'alvan/vim-closetag'
-Plugin 'davidhalter/jedi-vim'
 Plugin 'ervandew/supertab'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'jremmen/vim-ripgrep'
@@ -74,6 +73,7 @@ set showmatch
 set smartcase
 set spell spelllang=en_us
 set undofile
+set updatetime=750
 set wildmenu
 
 set noeb vb t_vb=
@@ -169,7 +169,6 @@ let g:syntastic_check_on_open=1
 let g:syntastic_python_checkers=[] 
 
 let g:pymode=1
-let g:pymode_doc=0
 let g:pymode_indent=1
 let g:pymode_lint=1
 let g:pymode_lint_checkers=['pyflakes', 'pep8']
@@ -179,6 +178,7 @@ let g:pymode_lint_options_pep8={'max_line_length': g:pymode_options_max_line_len
 let g:pymode_lint_todo_symbol='TD'
 let g:pymode_motion=1
 let g:pymode_options_colorcolumn=1
+let g:pymode_doc = 0
 let g:pymode_rope=1
 let g:pymode_rope_lookup_project=0
 let g:pymode_rope_autoimport=1
@@ -207,8 +207,7 @@ let g:tagbar_autofocus=1
 let g:tagbar_compact=1
 let g:tagbar_show_linenumbers=2
 let g:tagbar_iconchars=['▶', '▼']
+let g:tagbar_silent = 1
 
 let g:session_autoload = 'no'
 let g:session_autosave = 'yes'
-
-let g:jedi#completions_enabled = 0
