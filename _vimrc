@@ -86,23 +86,30 @@ set noeb vb t_vb=
 syntax enable
 filetype plugin on
 
-augroup reload_vimrc_and_gen_tags
+augroup reload_vimrc
     autocmd!
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
-    autocmd BufWritePost *.py :silent !start /min ctags -R --python-kinds=-i
 augroup END 
 
-autocmd BufWrite *.py :silent PymodeLintAuto
-autocmd FileType html,css EmmetInstall
-autocmd FileType nerdtree setlocal relativenumber
-autocmd QuickFixCmdPost * cwindow
+augroup misc
+    autocmd!
+    autocmd BufWritePost *.py :silent !start /min ctags -R --python-kinds=-i
+    autocmd BufWritePre *.py :silent PymodeLintAuto
+    autocmd FileType html,css EmmetInstall
+    autocmd FileType nerdtree setlocal relativenumber
+    autocmd QuickFixCmdPost * cwindow
+augroup END
+
+map <f12> :silent !start /min ctags -R --python-kinds=-i<cr>
 
 noremap <Leader>a ggVG
 
 silent! nmap <F3> :NERDTreeFind<CR>
 silent! nmap <F4> :NERDTreeToggle<CR>
-
 silent! nmap <F8> :TagbarToggle<CR>
+
+"Default Windows behaviour for Ctrl+Backspace
+inoremap <C-BS> <C-W>
 
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>airlineSelectTab2
@@ -117,8 +124,6 @@ nmap <leader>- <Plug>AirlineSelectPrevTab
 nmap <leader>+ <Plug>AirlineSelectNextTab
 nmap <silent> <Leader>e :e $MYVIMRC<CR>
 nmap <leader>w :w!<cr>
-"nmap <S-Enter> O<Esc>
-"nmap <CR> o<Esc>
 
 nnoremap <leader>cf :let @*=expand("%:p")<CR>
 nnoremap <C-P> :FZF<CR>
@@ -146,6 +151,7 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
 "No Ex mode ugh
 nnoremap Q <nop>
 
@@ -162,6 +168,19 @@ let g:airline#extensions#virtualenv#enabled=1
 let g:airline#extensions#whitespace#enabled=0
 let g:airline_detect_modified=1
 let g:airline_powerline_fonts=1
+let g:airline_mode_map = {
+    \ '__' : '-',
+    \ 'n'  : 'N',
+    \ 'i'  : 'I',
+    \ 'R'  : 'R',
+    \ 'c'  : 'C',
+    \ 'v'  : 'V',
+    \ 'V'  : 'V',
+    \ '' : 'V',
+    \ 's'  : 'S',
+    \ 'S'  : 'S',
+    \ '' : 'S',
+    \ }
 
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list=1
@@ -196,7 +215,6 @@ let g:solarized_contrast="high"
 au guienter * simalt ~x
 
 let g:virtualenv_auto_activate=1
-map <f12> :silent !start /min ctags -R --python-kinds=-i<cr>
 
 let g:user_emmet_install_global=0
 let g:user_emmet_leader_key="<C-M>"
