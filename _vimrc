@@ -50,9 +50,6 @@ set smartindent
 set autoread
 set background=light
 set backspace=indent,eol,start
-set clipboard=unnamed
-"set cursorcolumn
-"set cursorline
 set foldlevel=99
 set foldmethod=indent
 set guifont=Fira\ Mono\ for\ Powerline:h10
