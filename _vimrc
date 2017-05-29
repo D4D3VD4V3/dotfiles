@@ -13,7 +13,6 @@ Plugin 'VundleVim/Vundle.vim'
 
 " Keep Plugin commands between vundle#begin/end.
 Plugin 'AndrewRadev/splitjoin.vim'
-Plugin 'PeterRincker/vim-argumentative'
 Plugin 'Raimondi/delimitMate'
 Plugin 'alvan/vim-closetag'
 Plugin 'ervandew/supertab'
@@ -79,10 +78,10 @@ set wildmenu
 
 set noeb vb t_vb=
 
-:set guioptions-=m  "remove menu bar
-:set guioptions-=T  "remove toolbar
-:set guioptions-=r  "remove right-hand scroll bar
-:set guioptions-=L  "remove left-hand scroll bar
+set guioptions-=m  "remove menu bar
+set guioptions-=T  "remove toolbar
+set guioptions-=r  "remove right-hand scroll bar
+set guioptions-=L  "remove left-hand scroll bar
 
 syntax enable
 filetype plugin on
@@ -95,7 +94,7 @@ augroup END
 augroup misc
     autocmd!
     autocmd BufWritePost *.py :silent !start /min ctags -R --python-kinds=-i
-    autocmd BufWritePre *.py :silent PymodeLintAuto
+    autocmd BufWritePre *.py :silent PymodeLintAuto 
     autocmd FileType html,css EmmetInstall
     autocmd FileType nerdtree setlocal relativenumber
     autocmd FileType python nnoremap <buffer> <F5> :!start cmd /c python % & pause<cr>
@@ -112,6 +111,7 @@ silent! nmap <F8> :TagbarToggle<CR>
 
 "Default Windows behaviour for Ctrl+Backspace
 inoremap <C-BS> <C-W>
+cnoremap <C-BS> <C-W>
 
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>airlineSelectTab2
@@ -194,6 +194,7 @@ let g:pymode_indent=1
 let g:pymode_lint=1
 let g:pymode_lint_checkers=['pyflakes', 'pep8']
 let g:pymode_options_max_line_length=119
+let g:pymode_lint_cwindow = 1
 let g:pymode_lint_on_fly=1
 let g:pymode_lint_options_pep8={'max_line_length': g:pymode_options_max_line_length}
 let g:pymode_lint_todo_symbol='TD'
@@ -220,8 +221,6 @@ let g:virtualenv_auto_activate=1
 
 let g:user_emmet_install_global=0
 let g:user_emmet_leader_key="<C-M>"
-
-let NERDTreeShowLineNumbers=1
 
 let g:tagbar_autofocus=1
 let g:tagbar_compact=1
