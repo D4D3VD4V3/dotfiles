@@ -50,6 +50,10 @@ set smartindent
 set autoread
 set background=light
 set backspace=indent,eol,start
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
 set foldlevel=99
 set foldmethod=indent
 set guifont=Fira\ Mono\ for\ Powerline:h10
@@ -94,6 +98,7 @@ augroup misc
     autocmd BufWritePre *.py :silent PymodeLintAuto
     autocmd FileType html,css EmmetInstall
     autocmd FileType nerdtree setlocal relativenumber
+    autocmd FileType python nnoremap <buffer> <F5> :!start cmd /c python % & pause<cr>
     autocmd QuickFixCmdPost * cwindow
 augroup END
 
