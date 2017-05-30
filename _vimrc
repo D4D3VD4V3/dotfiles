@@ -14,6 +14,7 @@ Plugin 'VundleVim/Vundle.vim'
 " Keep Plugin commands between vundle#begin/end.
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'Raimondi/delimitMate'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'alvan/vim-closetag'
 Plugin 'ervandew/supertab'
 Plugin 'jmcantrell/vim-virtualenv'
@@ -76,6 +77,14 @@ set undofile
 set updatetime=750
 set wildmenu
 
+if !isdirectory(expand("~/.vim/tmp"))
+    call mkdir(expand("~/.vim/tmp"), "p")
+endif
+
+set directory=~/.vim/tmp//,.
+set backupdir=~/.vim/tmp//,.
+set undodir=~/.vim/tmp//,.
+
 set noeb vb t_vb=
 
 set guioptions-=m  "remove menu bar
@@ -127,7 +136,7 @@ nmap <leader>+ <Plug>AirlineSelectNextTab
 nmap <silent> <Leader>e :e $MYVIMRC<CR>
 nmap <leader>w :w!<cr>
 
-nnoremap <leader>cf :let @*=expand("%:p")<CR>
+nnoremap <leader>cp :let @*=expand("%:p")<CR>
 nnoremap <C-P> :FZF<CR>
 nmap <leader>v :vs<CR><C-L><C-F>:set scb<CR><C-H>:set scb<CR>
 
