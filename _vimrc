@@ -42,9 +42,12 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 " Put your non-Plugin stuff after this line
 
+packadd! matchit
 set encoding=utf-8
 colorscheme solarized
 let mapleader="\<Space>"
+set history=1000
+set mousemodel=popup
 set autoindent
 set smartindent
 set autoread
@@ -54,8 +57,8 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
-set foldlevel=99
-set foldmethod=indent
+"set foldlevel=99
+"set foldmethod=indent
 set guifont=Fira\ Mono\ for\ Powerline:h10
 "Speeds up switching buffers
 set hid
@@ -73,6 +76,7 @@ set showcmd
 set showmatch
 set smartcase
 set spell spelllang=en_us
+set backup
 set undofile
 set updatetime=750
 set wildmenu
@@ -80,7 +84,6 @@ set wildmenu
 if !isdirectory(expand("~/.vim/tmp"))
     call mkdir(expand("~/.vim/tmp"), "p")
 endif
-
 set directory=~/.vim/tmp//,.
 set backupdir=~/.vim/tmp//,.
 set undodir=~/.vim/tmp//,.
@@ -118,9 +121,14 @@ silent! nmap <F3> :NERDTreeFind<CR>
 silent! nmap <F4> :NERDTreeToggle<CR>
 silent! nmap <F8> :TagbarToggle<CR>
 
+command! -nargs=* -complete=help H helpgrep <args>
+
 "Default Windows behaviour for Ctrl+Backspace
 inoremap <C-BS> <C-W>
 cnoremap <C-BS> <C-W>
+
+xnoremap < <gv
+xnoremap > >gv
 
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>airlineSelectTab2
@@ -139,6 +147,11 @@ nmap <leader>w :w!<cr>
 nnoremap <leader>cp :let @*=expand("%:p")<CR>
 nnoremap <C-P> :FZF<CR>
 nmap <leader>v :vs<CR><C-L><C-F>:set scb<CR><C-H>:set scb<CR>
+
+nnoremap <Leader>qo :copen<CR>
+nnoremap <Leader>qc :cclose<CR>
+nnoremap <Leader>lo :lopen<CR>
+nnoremap <Leader>lc :lclose<CR>
 
 " fugitive git bindings
 nnoremap <leader>ga :Git add %:p<CR><CR>
@@ -238,4 +251,5 @@ let g:tagbar_iconchars=['▶', '▼']
 let g:tagbar_silent = 1
 
 let g:session_autoload = 'no'
-let g:session_autosave = 'yes'
+let getsession_autosave = 'yes'
+let getsession_autosave = 'yes'
