@@ -1,53 +1,43 @@
 set nocompatible              " be iMproved, required
-filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=$HOME/vimfiles/bundle/Vundle.vim/
-"set rtp+=$HOME/vimfiles/bundle/vim-snippets/
-call vundle#begin('$HOME/vimfiles/bundle/')
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+call plug#begin()
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'Raimondi/delimitMate'
+Plug 'airblade/vim-gitgutter'
+Plug 'alvan/vim-closetag'
+Plug 'ervandew/supertab'
+Plug 'jmcantrell/vim-virtualenv', {'for': ['python']}
+Plug 'jremmen/vim-ripgrep'
+Plug 'junegunn/fzf'
+Plug 'junegunn/goyo.vim', {'for': ['markdown', 'text']}
+Plug 'junegunn/vim-easy-align'
+Plug 'd4d3vd4v3/vim-emoji'
+Plug 'junegunn/vim-peekaboo'
+Plug 'majutsushi/tagbar'
+Plug 'mattn/emmet-vim'
+Plug 'python-mode/python-mode'
+Plug 'scrooloose/nerdcommenter' 
+Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-syntastic/syntastic' 
+Plug 'wellle/targets.vim'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-session'
+call plug#end()
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-" Keep Plugin commands between vundle#begin/end.
-Plugin 'AndrewRadev/splitjoin.vim'
-Plugin 'Raimondi/delimitMate'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'alvan/vim-closetag'
-Plugin 'ervandew/supertab'
-Plugin 'jmcantrell/vim-virtualenv'
-Plugin 'jremmen/vim-ripgrep'
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/goyo.vim'
-Plugin 'majutsushi/tagbar'
-Plugin 'mattn/emmet-vim'
-Plugin 'python-mode/python-mode'
-Plugin 'scrooloose/nerdcommenter' 
-Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-abolish'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'vim-syntastic/syntastic' 
-Plugin 'wellle/targets.vim'
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-session'
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
 filetype plugin indent on    " required
-" Put your non-Plugin stuff after this line
 
 packadd! matchit
 set encoding=utf-8
 colorscheme solarized
 let mapleader="\<Space>"
 set history=1000
-set mousemodel=popup
 set autoindent
 set smartindent
 set autoread
@@ -57,8 +47,8 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
-"set foldlevel=99
-"set foldmethod=indent
+set foldlevel=99
+set foldmethod=indent
 set guifont=Fira\ Mono\ for\ Powerline:h10
 "Speeds up switching buffers
 set hid
@@ -80,6 +70,7 @@ set backup
 set undofile
 set updatetime=750
 set wildmenu
+set completefunc=emoji#complete
 
 if !isdirectory(expand("~/.vim/tmp"))
     call mkdir(expand("~/.vim/tmp"), "p")
