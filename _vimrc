@@ -1,5 +1,4 @@
 set nocompatible              " be iMproved, required
-
 call plug#begin()
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'Raimondi/delimitMate'
@@ -17,7 +16,7 @@ Plug 'majutsushi/tagbar'
 Plug 'mattn/emmet-vim'
 Plug 'python-mode/python-mode'
 Plug 'scrooloose/nerdcommenter' 
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -96,11 +95,11 @@ augroup END
 
 augroup misc
     autocmd!
-    autocmd BufWritePost *.py :silent !start /min ctags -R --python-kinds=-i
-    autocmd BufWritePre *.py :silent PymodeLintAuto 
+    autocmd BufWritePost *.py silent !start /min ctags -R --python-kinds=-i
+    autocmd BufWritePre *.py silent PymodeLintAuto 
     autocmd FileType html,css EmmetInstall
     autocmd FileType nerdtree setlocal relativenumber
-    autocmd FileType python nnoremap <buffer> <F5> :!start cmd /c python % & pause<cr>
+    autocmd FileType python nnoremap <buffer> <F5> !start cmd /c python % & pause<cr>
     autocmd QuickFixCmdPost * cwindow
 augroup END
 
@@ -166,6 +165,11 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+nnoremap <Left> <C-W><
+nnoremap <Right> <C-W>>
+nnoremap <Up> <C-W>+
+nnoremap <Down> <C-W>-
+
 
 "No Ex mode ugh
 nnoremap Q <nop>
@@ -196,6 +200,8 @@ let g:airline_mode_map = {
     \ 'S'  : 'S',
     \ '' : 'S',
     \ }
+
+let g:NERDTreeIgnore=['tags', '.ropeproject[[dir]]', '__pycache__[[dir]]', '.swp', '.un~']
 
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list=1
