@@ -17,6 +17,7 @@ Plug 'mattn/emmet-vim'
 Plug 'python-mode/python-mode'
 Plug 'scrooloose/nerdcommenter' 
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
+Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -24,7 +25,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'vim-syntastic/syntastic' 
 Plug 'wellle/targets.vim'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
@@ -40,7 +40,6 @@ set history=1000
 set autoindent
 set smartindent
 set autoread
-set background=light
 set backspace=indent,eol,start
 set tabstop=4
 set softtabstop=4
@@ -179,7 +178,6 @@ if !exists('g:airline_symbols')
 endif
 
 let g:airline#extensions#branch#enabled=1
-let g:airline#extensions#syntastic#enabled=1
 let g:airline#extensions#tabline#buffer_idx_mode=1
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#tab_nr_type=2
@@ -201,12 +199,14 @@ let g:airline_mode_map = {
     \ '' : 'S',
     \ }
 
-let g:NERDTreeIgnore=['tags', '.ropeproject[[dir]]', '__pycache__[[dir]]', '.swp', '.un~']
+let g:NERDTreeIgnore=['\.swp$', '\.un\~$', 'tags', '\.ropeproject[[dir]]', '__pycache__[[dir]]']
 
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list=1
 let g:syntastic_check_on_open=1
 let g:syntastic_python_checkers=[] 
+let g:syntastic_markdown_checkers=['proselint']
+let g:syntastic_text_checkers=['proselint']
 
 let g:pymode=1
 let g:pymode_indent=1
@@ -222,7 +222,7 @@ let g:pymode_options_colorcolumn=1
 let g:pymode_doc = 0
 let g:pymode_rope=1
 let g:pymode_rope_lookup_project=0
-let g:pymode_rope_autoimport=1
+let g:pymode_rope_autoimport=0
 let g:pymode_rope_completion=1
 let g:pymode_rope_complete_on_dot = 1
 let g:pymode_syntax=0
@@ -245,8 +245,10 @@ let g:tagbar_autofocus=1
 let g:tagbar_compact=1
 let g:tagbar_show_linenumbers=2
 let g:tagbar_iconchars=['▶', '▼']
-let g:tagbar_silent = 1
+let g:tagbar_silent=1
+let g:tagbar_sort=0
 
 let g:session_autoload = 'no'
 let getsession_autosave = 'yes'
 let getsession_autosave = 'yes'
+
