@@ -47,7 +47,7 @@ set shiftwidth=4
 set expandtab
 set foldlevel=99
 set foldmethod=indent
-set guifont=Fira\ Mono\ for\ Powerline:h10
+set guifont=Fira\ Mono\ for\ Powerline:h12
 "Speeds up switching buffers
 set hid
 set ignorecase
@@ -132,10 +132,12 @@ nmap <leader>- <Plug>AirlineSelectPrevTab
 nmap <leader>+ <Plug>AirlineSelectNextTab
 nmap <silent> <Leader>e :e $MYVIMRC<CR>
 nmap <leader>w :w!<cr>
-
-nnoremap <leader>cp :let @*=expand("%:p")<CR>
-nnoremap <C-P> :FZF<CR>
 nmap <leader>v :vs<CR><C-L><C-F>:set scb<CR><C-H>:set scb<CR>
+
+nnoremap <leader>cp :let @*='"' . expand("%:p") . '"'<CR>
+nnoremap <leader>cd :let @*='"' . expand("%:p:h") . '"'<CR>
+nnoremap <leader>e :!start <C-R>='"' . expand("%:p:h") . '"'<CR><CR>
+nnoremap <C-P> :FZF<CR>
 
 nnoremap <Leader>qo :copen<CR>
 nnoremap <Leader>qc :cclose<CR>
@@ -199,7 +201,7 @@ let g:airline_mode_map = {
     \ '' : 'S',
     \ }
 
-let g:NERDTreeIgnore=['\.swp$', '\.un\~$', 'tags', '\.ropeproject[[dir]]', '__pycache__[[dir]]']
+let g:NERDTreeIgnore=['\.swp$', '\.un\~$', '\.pyc$', 'tags', '\.ropeproject[[dir]]', '__pycache__[[dir]]']
 
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list=1
@@ -251,4 +253,3 @@ let g:tagbar_sort=0
 let g:session_autoload = 'no'
 let getsession_autosave = 'yes'
 let getsession_autosave = 'yes'
-
