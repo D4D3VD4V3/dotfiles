@@ -1,4 +1,5 @@
 set nocompatible              " be iMproved, required
+
 call plug#begin()
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'Raimondi/delimitMate'
@@ -8,9 +9,9 @@ Plug 'ervandew/supertab'
 Plug 'jmcantrell/vim-virtualenv', {'for': ['python']}
 Plug 'jremmen/vim-ripgrep'
 Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim', {'for': ['markdown', 'text']}
 Plug 'junegunn/vim-easy-align'
-Plug 'd4d3vd4v3/vim-emoji'
 Plug 'junegunn/vim-peekaboo'
 Plug 'majutsushi/tagbar'
 Plug 'mattn/emmet-vim'
@@ -34,7 +35,7 @@ filetype plugin indent on    " required
 
 packadd! matchit
 set encoding=utf-8
-colorscheme solarized
+colorscheme industry
 let mapleader="\<Space>"
 set history=1000
 set autoindent
@@ -68,7 +69,6 @@ set backup
 set undofile
 set updatetime=750
 set wildmenu
-set completefunc=emoji#complete
 
 if !isdirectory(expand("~/.vim/tmp"))
     call mkdir(expand("~/.vim/tmp"), "p")
@@ -85,7 +85,6 @@ set guioptions-=r  "remove right-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar
 
 syntax enable
-filetype plugin on
 
 augroup reload_vimrc
     autocmd!
@@ -136,7 +135,7 @@ nmap <leader>v :vs<CR><C-L><C-F>:set scb<CR><C-H>:set scb<CR>
 
 nnoremap <leader>cp :let @*='"' . expand("%:p") . '"'<CR>
 nnoremap <leader>cd :let @*='"' . expand("%:p:h") . '"'<CR>
-nnoremap <leader>e :!start <C-R>='"' . expand("%:p:h") . '"'<CR><CR>
+nnoremap <leader>oe :!start <C-R>='"' . expand("%:p:h") . '"'<CR><CR>
 nnoremap <C-P> :FZF<CR>
 
 nnoremap <Leader>qo :copen<CR>
@@ -166,11 +165,11 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
 nnoremap <Left> <C-W><
 nnoremap <Right> <C-W>>
 nnoremap <Up> <C-W>+
 nnoremap <Down> <C-W>-
-
 
 "No Ex mode ugh
 nnoremap Q <nop>
@@ -253,3 +252,17 @@ let g:tagbar_sort=0
 let g:session_autoload = 'no'
 let getsession_autosave = 'yes'
 let getsession_autosave = 'yes'
+
+"Support for ipdb adapted from https://gist.github.com/berinhard/523420/89ce9864ce60b9053b31c8a26a20ae0355892f3b
+func! s:SetBreakpoint()
+    cal append('.', repeat(' ', strlen(matchstr(getline('.'), '^\s*'))) . 'import ipdb; ipdb.set_trace()')
+endf
+
+func! s:RemoveBreakpoint()
+    exe 'silent! g/^\s*import\sipdb\;\?\n*\s*ipdb.set_trace()/d'
+endf
+
+func! s:ToggleBreakpoint()
+    if getline('.')=~#'^\s*import\sipdb' | cal s:RemoveBreakpoint() | el | cal s:SetBreakpoint() | en
+endf
+nnoremap <F6> :call <SID>ToggleBreakpoint()<CR>
