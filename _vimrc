@@ -246,8 +246,6 @@ let g:tagbar_silent=1
 let g:tagbar_sort=0
 
 let g:session_autoload = 'no'
-let getsession_autosave = 'yes'
-let getsession_autosave = 'yes'
 
 "Support for ipdb adapted from https://gist.github.com/berinhard/523420/89ce9864ce60b9053b31c8a26a20ae0355892f3b
 func! s:SetBreakpoint()
