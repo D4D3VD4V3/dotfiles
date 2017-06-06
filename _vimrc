@@ -1,6 +1,6 @@
-set nocompatible              " be iMproved, required
+se nocompatible              " be iMproved, required
 
-call plug#begin()
+cal plug#begin()
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'airblade/vim-gitgutter'
@@ -29,85 +29,83 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'wellle/targets.vim'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
-call plug#end()
+cal plug#end()
 
 filetype plugin indent on    " required
 
 packadd! matchit
-set encoding=utf-8
-colorscheme industry
+se encoding=utf-8
+colo industry
 let mapleader="\<Space>"
-set history=1000
-set autoindent
-set smartindent
-set autoread
-set backspace=indent,eol,start
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set expandtab
-set foldlevel=99
-set foldmethod=indent
-set guifont=Fira\ Mono\ for\ Powerline:h12
+se history=1000
+se autoindent
+se smartindent
+se autoread
+se backspace=indent,eol,start
+se tabstop=4
+se softtabstop=4
+se shiftwidth=4
+se expandtab
+se foldlevel=99
+se foldmethod=indent
+se guifont=Fira\ Mono\ for\ Powerline:h12
 "Speeds up switching buffers
-set hid
-set ignorecase
-set incsearch
+se hid
+se ignorecase
+se incsearch
 "To keep airline always visible
-set laststatus=2
-set nohlsearch
-set nowrap
-set number
-set relativenumber
-set scrolloff=9
-set shortmess+=I
-set showcmd
-set showmatch
-set smartcase
-set spell spelllang=en_us
-set backup
-set undofile
-set updatetime=750
-set wildmenu
+se laststatus=2
+se nohlsearch
+se nowrap
+se number
+se relativenumber
+se scrolloff=9
+se shortmess+=I
+se showcmd
+se showmatch
+se smartcase
+se spell spelllang=en_us
+se backup
+se undofile
+se updatetime=750
+se wildmenu
 
-if !isdirectory(expand("~/.vim/tmp"))
-    call mkdir(expand("~/.vim/tmp"), "p")
-endif
-set directory=~/.vim/tmp//,.
-set backupdir=~/.vim/tmp//,.
-set undodir=~/.vim/tmp//,.
+if !isdirectory(expand("~/.vim/tmp")) | cal mkdir(expand("~/.vim/tmp"), "p") | en
+se directory=~/.vim/tmp//,.
+se backupdir=~/.vim/tmp//,.
+se undodir=~/.vim/tmp//,.
 
-set noeb vb t_vb=
+se noeb vb t_vb=
 
-set guioptions-=m  "remove menu bar
-set guioptions-=T  "remove toolbar
-set guioptions-=r  "remove right-hand scroll bar
-set guioptions-=L  "remove left-hand scroll bar
+se guioptions-=m  "remove menu bar
+se guioptions-=T  "remove toolbar
+se guioptions-=r  "remove right-hand scroll bar
+se guioptions-=L  "remove left-hand scroll bar
 
 syntax enable
 
-augroup reload_vimrc
-    autocmd!
-    autocmd BufWritePost $MYVIMRC source $MYVIMRC
-augroup END 
+aug reload_vimrc
+    au!
+    au BufWritePost $MYVIMRC source $MYVIMRC
+aug END 
 
-augroup misc
-    autocmd!
-    autocmd BufWritePost *.py silent !start /min ctags -R --python-kinds=-i
-    autocmd BufWritePre *.py silent PymodeLintAuto 
-    autocmd FileType html,css EmmetInstall
-    autocmd FileType nerdtree setlocal relativenumber
-    autocmd FileType python nnoremap <buffer> <F5> !start cmd /c python % & pause<cr>
-    autocmd QuickFixCmdPost * cwindow
-augroup END
+aug misc
+    au!
+    au BufWritePost *.py sil !start /min ctags -R --python-kinds=-i
+    au BufWritePre *.py sil PymodeLintAuto 
+    au FileType html,css EmmetInstall
+    au FileType nerdtree setl relativenumber
+    au FileType python nnoremap <buffer> <F5> !start cmd /c python % & pause<cr>
+    au QuickFixCmdPost * cwindow
+aug END
 
-map <f12> :silent !start /min ctags -R --python-kinds=-i<cr>
+map <f12> :sil !start /min ctags -R --python-kinds=-i<cr>
 
 noremap <Leader>a ggVG
 
-silent! nmap <F3> :NERDTreeFind<CR>
-silent! nmap <F4> :NERDTreeToggle<CR>
-silent! nmap <F8> :TagbarToggle<CR>
+sil! nmap <F3> :NERDTreeFind<CR>
+sil! nmap <F4> :NERDTreeToggle<CR>
+sil! nmap <F8> :TagbarToggle<CR>
 
 command! -nargs=* -complete=help H helpgrep <args>
 
@@ -129,9 +127,9 @@ nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
 nmap <leader>- <Plug>AirlineSelectPrevTab
 nmap <leader>+ <Plug>AirlineSelectNextTab
-nmap <silent> <Leader>e :e $MYVIMRC<CR>
+nmap <sil> <Leader>e :e $MYVIMRC<CR>
 nmap <leader>w :w!<cr>
-nmap <leader>v :vs<CR><C-L><C-F>:set scb<CR><C-H>:set scb<CR>
+nmap <leader>v :vs<CR><C-L><C-F>:se scb<CR><C-H>:se scb<CR>
 
 nnoremap <leader>cp :let @*='"' . expand("%:p") . '"'<CR>
 nnoremap <leader>cd :let @*='"' . expand("%:p:h") . '"'<CR>
@@ -152,7 +150,7 @@ nnoremap <leader>gd :Gdiff<CR>
 nnoremap <leader>ge :Gedit<CR>
 nnoremap <leader>gr :Gread<CR>
 nnoremap <leader>gw :Gwrite<CR><CR>
-nnoremap <leader>gl :silent! Glog<CR>:bot copen<CR>
+nnoremap <leader>gl :sil! Glog<CR>:bot copen<CR>
 nnoremap <leader>gp :Ggrep<Space>
 nnoremap <leader>gm :Gmove<Space>
 nnoremap <leader>gb :Git branch<Space>
@@ -174,9 +172,7 @@ nnoremap <Down> <C-W>-
 "No Ex mode ugh
 nnoremap Q <nop>
 
-if !exists('g:airline_symbols')
-    let g:airline_symbols={}
-endif
+if !exists('g:airline_symbols') | let g:airline_symbols={} | en
 
 let g:airline#extensions#branch#enabled=1
 let g:airline#extensions#tabline#buffer_idx_mode=1
@@ -259,10 +255,10 @@ func! s:SetBreakpoint()
 endf
 
 func! s:RemoveBreakpoint()
-    exe 'silent! g/^\s*import\sipdb\;\?\n*\s*ipdb.set_trace()/d'
+    exe 'sil! g/^\s*import\sipdb\;\?\n*\s*ipdb.set_trace()/d'
 endf
 
 func! s:ToggleBreakpoint()
     if getline('.')=~#'^\s*import\sipdb' | cal s:RemoveBreakpoint() | el | cal s:SetBreakpoint() | en
 endf
-nnoremap <F6> :call <SID>ToggleBreakpoint()<CR>
+nnoremap <F6> :cal <SID>ToggleBreakpoint()<CR>
