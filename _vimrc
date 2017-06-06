@@ -1,4 +1,4 @@
-se nocompatible              " be iMproved, required
+se nocp              " be iMproved, required
 
 cal plug#begin()
 Plug 'AndrewRadev/splitjoin.vim'
@@ -34,41 +34,41 @@ cal plug#end()
 filetype plugin indent on    " required
 
 packadd! matchit
-se encoding=utf-8
+se enc=utf-8
 colo industry
 let mapleader="\<Space>"
 se history=1000
-se autoindent
-se smartindent
-se autoread
+se ai
+se si
+se ar
 se backspace=indent,eol,start
-se tabstop=4
-se softtabstop=4
+se ts=4
+se sts=4
 se shiftwidth=4
-se expandtab
+se et
 se foldlevel=99
-se foldmethod=indent
-se guifont=Fira\ Mono\ for\ Powerline:h12
+se fdm=indent
+se gfn=Fira\ Mono\ for\ Powerline:h12
 "Speeds up switching buffers
 se hid
 se ignorecase
-se incsearch
+se is
 "To keep airline always visible
 se laststatus=2
 se nohlsearch
 se nowrap
-se number
-se relativenumber
-se scrolloff=9
-se shortmess+=I
-se showcmd
-se showmatch
-se smartcase
+se nu
+se rnu
+se so=9
+se shm+=I
+se sc
+se sm
+se scs
 se spell spelllang=en_us
 se backup
 se undofile
-se updatetime=750
-se wildmenu
+se ut=750
+se wmnu
 
 if !isdirectory(expand("~/.vim/tmp")) | cal mkdir(expand("~/.vim/tmp"), "p") | en
 se directory=~/.vim/tmp//,.
@@ -77,10 +77,10 @@ se undodir=~/.vim/tmp//,.
 
 se noeb vb t_vb=
 
-se guioptions-=m  "remove menu bar
-se guioptions-=T  "remove toolbar
-se guioptions-=r  "remove right-hand scroll bar
-se guioptions-=L  "remove left-hand scroll bar
+se go-=m  "remove menu bar
+se go-=T  "remove toolbar
+se go-=r  "remove right-hand scroll bar
+se go-=L  "remove left-hand scroll bar
 
 syntax enable
 
@@ -95,7 +95,7 @@ aug misc
     au BufWritePre *.py sil PymodeLintAuto 
     au FileType html,css EmmetInstall
     au FileType nerdtree setl relativenumber
-    au FileType python nnoremap <buffer> <F5> !start cmd /c python % & pause<cr>
+    au FileType python nn <buffer> <F5> !start cmd /c python % & pause<cr>
     au QuickFixCmdPost * cwindow
 aug END
 
@@ -103,74 +103,74 @@ map <f12> :sil !start /min ctags -R --python-kinds=-i<cr>
 
 noremap <Leader>a ggVG
 
-sil! nmap <F3> :NERDTreeFind<CR>
-sil! nmap <F4> :NERDTreeToggle<CR>
-sil! nmap <F8> :TagbarToggle<CR>
+sil! nm <F3> :NERDTreeFind<CR>
+sil! nm <F4> :NERDTreeToggle<CR>
+sil! nm <F8> :TagbarToggle<CR>
 
 command! -nargs=* -complete=help H helpgrep <args>
 
 "Default Windows behaviour for Ctrl+Backspace
-inoremap <C-BS> <C-W>
-cnoremap <C-BS> <C-W>
+ino <C-BS> <C-W>
+cno <C-BS> <C-W>
 
-xnoremap < <gv
-xnoremap > >gv
+xn < <gv
+xn > >gv
 
-nmap <leader>1 <Plug>AirlineSelectTab1
-nmap <leader>2 <Plug>airlineSelectTab2
-nmap <leader>3 <Plug>AirlineSelectTab3
-nmap <leader>4 <Plug>AirlineSelectTab4
-nmap <leader>5 <Plug>AirlineSelectTab5
-nmap <leader>6 <Plug>AirlineSelectTab6
-nmap <leader>7 <Plug>AirlineSelectTab7
-nmap <leader>8 <Plug>AirlineSelectTab8
-nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <leader>- <Plug>AirlineSelectPrevTab
-nmap <leader>+ <Plug>AirlineSelectNextTab
-nmap <sil> <Leader>e :e $MYVIMRC<CR>
-nmap <leader>w :w!<cr>
-nmap <leader>v :vs<CR><C-L><C-F>:se scb<CR><C-H>:se scb<CR>
+nm <leader>1 <Plug>AirlineSelectTab1
+nm <leader>2 <Plug>airlineSelectTab2
+nm <leader>3 <Plug>AirlineSelectTab3
+nm <leader>4 <Plug>AirlineSelectTab4
+nm <leader>5 <Plug>AirlineSelectTab5
+nm <leader>6 <Plug>AirlineSelectTab6
+nm <leader>7 <Plug>AirlineSelectTab7
+nm <leader>8 <Plug>AirlineSelectTab8
+nm <leader>9 <Plug>AirlineSelectTab9
+nm <leader>- <Plug>AirlineSelectPrevTab
+nm <leader>+ <Plug>AirlineSelectNextTab
+nm <silent> <Leader>e :e $MYVIMRC<CR>
+nm <leader>w :w!<cr>
+nm <leader>v :vs<CR><C-L><C-F>:se scb<CR><C-H>:se scb<CR>
 
-nnoremap <leader>cp :let @*='"' . expand("%:p") . '"'<CR>
-nnoremap <leader>cd :let @*='"' . expand("%:p:h") . '"'<CR>
-nnoremap <leader>oe :!start <C-R>='"' . expand("%:p:h") . '"'<CR><CR>
-nnoremap <C-P> :FZF<CR>
+nn <leader>cp :let @*='"' . expand("%:p") . '"'<CR>
+nn <leader>cd :let @*='"' . expand("%:p:h") . '"'<CR>
+nn <leader>oe :!start <C-R>='"' . expand("%:p:h") . '"'<CR><CR>
+nn <C-P> :FZF<CR>
 
-nnoremap <Leader>qo :copen<CR>
-nnoremap <Leader>qc :cclose<CR>
-nnoremap <Leader>lo :lopen<CR>
-nnoremap <Leader>lc :lclose<CR>
+nn <Leader>qo :copen<CR>
+nn <Leader>qc :cclose<CR>
+nn <Leader>lo :lopen<CR>
+nn <Leader>lc :lclose<CR>
 
 " fugitive git bindings
-nnoremap <leader>ga :Git add %:p<CR><CR>
-nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>gc :Gcommit -v -q<CR>
-nnoremap <leader>gt :Gcommit -v -q :%p<CR>
-nnoremap <leader>gd :Gdiff<CR>
-nnoremap <leader>ge :Gedit<CR>
-nnoremap <leader>gr :Gread<CR>
-nnoremap <leader>gw :Gwrite<CR><CR>
-nnoremap <leader>gl :sil! Glog<CR>:bot copen<CR>
-nnoremap <leader>gp :Ggrep<Space>
-nnoremap <leader>gm :Gmove<Space>
-nnoremap <leader>gb :Git branch<Space>
-nnoremap <leader>go :Git checkout<Space>
-nnoremap <leader>gps :Gpush<CR>
-nnoremap <leader>gpl :Gpull<CR>
+nn <leader>ga :Git add %:p<CR><CR>
+nn <leader>gs :Gstatus<CR>
+nn <leader>gc :Gcommit -v -q<CR>
+nn <leader>gt :Gcommit -v -q :%p<CR>
+nn <leader>gd :Gdiff<CR>
+nn <leader>ge :Gedit<CR>
+nn <leader>gr :Gread<CR>
+nn <leader>gw :Gwrite<CR><CR>
+nn <leader>gl :sil! Glog<CR>:bot copen<CR>
+nn <leader>gp :Ggrep<Space>
+nn <leader>gm :Gmove<Space>
+nn <leader>gb :Git branch<Space>
+nn <leader>go :Git checkout<Space>
+nn <leader>gps :Gpush<CR>
+nn <leader>gpl :Gpull<CR>
 
 "split navigations
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+nn <C-J> <C-W><C-J>
+nn <C-K> <C-W><C-K>
+nn <C-L> <C-W><C-L>
+nn <C-H> <C-W><C-H>
 
-nnoremap <Left> <C-W><
-nnoremap <Right> <C-W>>
-nnoremap <Up> <C-W>+
-nnoremap <Down> <C-W>-
+nn <Left> <C-W><
+nn <Right> <C-W>>
+nn <Up> <C-W>+
+nn <Down> <C-W>-
 
 "No Ex mode ugh
-nnoremap Q <nop>
+nn Q <nop>
 
 if !exists('g:airline_symbols') | let g:airline_symbols={} | en
 
@@ -228,10 +228,8 @@ let g:pymode_virtualenv=1
 "Find a better keybinding
 let g:pymode_rope_rename_bind='<C-C>r'
 
-let g:solarized_contrast="high"
-
 "maximize window on startup
-au guienter * simalt ~x
+au GuiEnter * simalt ~x
 
 let g:virtualenv_auto_activate=1
 
@@ -259,4 +257,4 @@ endf
 func! s:ToggleBreakpoint()
     if getline('.')=~#'^\s*import\sipdb' | cal s:RemoveBreakpoint() | el | cal s:SetBreakpoint() | en
 endf
-nnoremap <F6> :cal <SID>ToggleBreakpoint()<CR>
+nn <F6> :cal <SID>ToggleBreakpoint()<CR>
