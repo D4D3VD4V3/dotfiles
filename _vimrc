@@ -26,36 +26,35 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'wakatime/vim-wakatime'
 Plug 'wellle/targets.vim'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 cal plug#end()
 
-filetype plugin indent on    " required
-
-packadd! matchit
+pa! matchit
 se enc=utf-8
 colo industry
 let mapleader="\<Space>"
-se history=1000
+se hi=1000
 se ai
 se si
 se ar
 se backspace=indent,eol,start
 se ts=4
 se sts=4
-se shiftwidth=4
+se sw=4
 se et
-se foldlevel=99
+se fdl=99
 se fdm=indent
 se gfn=Fira\ Mono\ for\ Powerline:h12
 "Speeds up switching buffers
 se hid
-se ignorecase
+se ic
 se is
 "To keep airline always visible
-se laststatus=2
-se nohlsearch
+se ls=2
+noh
 se nowrap
 se nu
 se rnu
@@ -64,50 +63,47 @@ se shm+=I
 se sc
 se sm
 se scs
-se spell spelllang=en_us
-se backup
-se undofile
+se bk
+se udf
 se ut=750
 se wmnu
 
 if !isdirectory(expand("~/.vim/tmp")) | cal mkdir(expand("~/.vim/tmp"), "p") | en
-se directory=~/.vim/tmp//,.
-se backupdir=~/.vim/tmp//,.
-se undodir=~/.vim/tmp//,.
+se dir=~/.vim/tmp//,.
+se bdir=~/.vim/tmp//,.
+se udir=~/.vim/tmp//,.
 
 se noeb vb t_vb=
 
-se go-=m  "remove menu bar
-se go-=T  "remove toolbar
-se go-=r  "remove right-hand scroll bar
-se go-=L  "remove left-hand scroll bar
+se go-=m
+se go-=T
+se go-=r
+se go-=L
 
-syntax enable
+syn enable
 
-aug reload_vimrc
+aug all
     au!
-    au BufWritePost $MYVIMRC source $MYVIMRC
-aug END 
-
-aug misc
-    au!
+    au BufWritePost $MYVIMRC so $MYVIMRC
     au BufWritePost *.py sil !start /min ctags -R --python-kinds=-i
     au BufWritePre *.py sil PymodeLintAuto 
     au FileType html,css EmmetInstall
-    au FileType nerdtree setl relativenumber
+    au FileType nerdtree setl rnu
     au FileType python nn <buffer> <F5> !start cmd /c python % & pause<cr>
-    au QuickFixCmdPost * cwindow
+    "maximize window on startup
+    au GuiEnter * sim ~x
+    au QuickFixCmdPost * cw
 aug END
 
 map <f12> :sil !start /min ctags -R --python-kinds=-i<cr>
 
-noremap <Leader>a ggVG
+no <Leader>a ggVG
 
 sil! nm <F3> :NERDTreeFind<CR>
 sil! nm <F4> :NERDTreeToggle<CR>
 sil! nm <F8> :TagbarToggle<CR>
 
-command! -nargs=* -complete=help H helpgrep <args>
+com! -nargs=* -complete=help H helpg <args>
 
 "Default Windows behaviour for Ctrl+Backspace
 ino <C-BS> <C-W>
@@ -136,10 +132,10 @@ nn <leader>cd :let @*='"' . expand("%:p:h") . '"'<CR>
 nn <leader>oe :!start <C-R>='"' . expand("%:p:h") . '"'<CR><CR>
 nn <C-P> :FZF<CR>
 
-nn <Leader>qo :copen<CR>
-nn <Leader>qc :cclose<CR>
-nn <Leader>lo :lopen<CR>
-nn <Leader>lc :lclose<CR>
+nn <Leader>qo :cope<CR>
+nn <Leader>qc :ccl<CR>
+nn <Leader>lo :lop<CR>
+nn <Leader>lc :lcl<CR>
 
 " fugitive git bindings
 nn <leader>ga :Git add %:p<CR><CR>
@@ -182,7 +178,7 @@ let g:airline#extensions#virtualenv#enabled=1
 let g:airline#extensions#whitespace#enabled=0
 let g:airline_detect_modified=1
 let g:airline_powerline_fonts=1
-let g:airline_mode_map = {
+let g:airline_mode_map={
     \ '__' : '-',
     \ 'n'  : 'N',
     \ 'i'  : 'I',
@@ -210,26 +206,23 @@ let g:pymode_indent=1
 let g:pymode_lint=1
 let g:pymode_lint_checkers=['pyflakes', 'pep8']
 let g:pymode_options_max_line_length=119
-let g:pymode_lint_cwindow = 1
+let g:pymode_lint_cwindow=1
 let g:pymode_lint_on_fly=1
 let g:pymode_lint_options_pep8={'max_line_length': g:pymode_options_max_line_length}
 let g:pymode_lint_todo_symbol='TD'
 let g:pymode_motion=1
 let g:pymode_options_colorcolumn=1
-let g:pymode_doc = 0
+let g:pymode_doc=0
 let g:pymode_rope=1
 let g:pymode_rope_lookup_project=0
 let g:pymode_rope_autoimport=0
 let g:pymode_rope_completion=1
-let g:pymode_rope_complete_on_dot = 1
+let g:pymode_rope_complete_on_dot=1
 let g:pymode_syntax=0
 let g:pymode_trim_whitespaces=1
 let g:pymode_virtualenv=1
 "Find a better keybinding
 let g:pymode_rope_rename_bind='<C-C>r'
-
-"maximize window on startup
-au GuiEnter * simalt ~x
 
 let g:virtualenv_auto_activate=1
 
@@ -243,9 +236,8 @@ let g:tagbar_iconchars=['▶', '▼']
 let g:tagbar_silent=1
 let g:tagbar_sort=0
 
-let g:session_autoload = 'no'
+let g:session_autoload='no'
 
-"Support for ipdb adapted from https://gist.github.com/berinhard/523420/89ce9864ce60b9053b31c8a26a20ae0355892f3b
 func! s:SetBreakpoint()
     cal append('.', repeat(' ', strlen(matchstr(getline('.'), '^\s*'))) . 'import ipdb; ipdb.set_trace()')
 endf
