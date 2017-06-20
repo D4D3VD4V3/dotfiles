@@ -1,4 +1,4 @@
-se nocp              " be iMproved, required
+se nocp
 
 cal plug#begin()
 Plug 'AndrewRadev/splitjoin.vim'
@@ -36,11 +36,11 @@ pa! matchit
 se enc=utf-8
 colo industry
 let mapleader="\<Space>"
-se hi=1000
+se ul=1000
 se ai
 se si
 se ar
-se backspace=indent,eol,start
+se bs=indent,eol,start
 se ts=4
 se sts=4
 se sw=4
@@ -48,11 +48,10 @@ se et
 se fdl=99
 se fdm=indent
 se gfn=Fira\ Mono\ for\ Powerline:h12
-"Speeds up switching buffers
 se hid
 se ic
+se scs
 se is
-"To keep airline always visible
 se ls=2
 noh
 se nowrap
@@ -62,11 +61,12 @@ se so=9
 se shm+=I
 se sc
 se sm
-se scs
 se bk
 se udf
 se ut=750
 se wmnu
+se bri
+se smc=200
 
 if !isdirectory(expand("~/.vim/tmp")) | cal mkdir(expand("~/.vim/tmp"), "p") | en
 se dir=~/.vim/tmp//,.
@@ -89,8 +89,8 @@ aug all
     au BufWritePre *.py sil PymodeLintAuto 
     au FileType html,css EmmetInstall
     au FileType nerdtree setl rnu
-    au FileType python nn <buffer> <F5> !start cmd /c python % & pause<cr>
-    "maximize window on startup
+    au FileType python nn <buffer> <F5> :!start cmd /c python % & pause<cr>
+    au FileType python nn <F6> :cal <SID>ToggleBreakpoint()<CR>
     au GuiEnter * sim ~x
     au QuickFixCmdPost * cw
 aug END
@@ -105,7 +105,6 @@ sil! nm <F8> :TagbarToggle<CR>
 
 com! -nargs=* -complete=help H helpg <args>
 
-"Default Windows behaviour for Ctrl+Backspace
 ino <C-BS> <C-W>
 cno <C-BS> <C-W>
 
@@ -129,7 +128,7 @@ nm <leader>v :vs<CR><C-L><C-F>:se scb<CR><C-H>:se scb<CR>
 
 nn <leader>cp :let @*='"' . expand("%:p") . '"'<CR>
 nn <leader>cd :let @*='"' . expand("%:p:h") . '"'<CR>
-nn <leader>oe :!start <C-R>='"' . expand("%:p:h") . '"'<CR><CR>
+nn <leader>oe :sil! !start <C-R>='"' . expand("%:p:h") . '"'<CR><CR>
 nn <C-P> :FZF<CR>
 
 nn <Leader>qo :cope<CR>
@@ -137,7 +136,6 @@ nn <Leader>qc :ccl<CR>
 nn <Leader>lo :lop<CR>
 nn <Leader>lc :lcl<CR>
 
-" fugitive git bindings
 nn <leader>ga :Git add %:p<CR><CR>
 nn <leader>gs :Gstatus<CR>
 nn <leader>gc :Gcommit -v -q<CR>
@@ -154,7 +152,6 @@ nn <leader>go :Git checkout<Space>
 nn <leader>gps :Gpush<CR>
 nn <leader>gpl :Gpull<CR>
 
-"split navigations
 nn <C-J> <C-W><C-J>
 nn <C-K> <C-W><C-K>
 nn <C-L> <C-W><C-L>
@@ -212,7 +209,7 @@ let g:pymode_lint_options_pep8={'max_line_length': g:pymode_options_max_line_len
 let g:pymode_lint_todo_symbol='TD'
 let g:pymode_motion=1
 let g:pymode_options_colorcolumn=1
-let g:pymode_doc=0
+let g:pymode_doc=1
 let g:pymode_rope=1
 let g:pymode_rope_lookup_project=0
 let g:pymode_rope_autoimport=0
@@ -249,4 +246,3 @@ endf
 func! s:ToggleBreakpoint()
     if getline('.')=~#'^\s*import\sipdb' | cal s:RemoveBreakpoint() | el | cal s:SetBreakpoint() | en
 endf
-nn <F6> :cal <SID>ToggleBreakpoint()<CR>
