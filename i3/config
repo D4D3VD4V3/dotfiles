@@ -30,7 +30,8 @@ font pango:monospace 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec gnome-terminal -e 'sh -c "tmux attach || tmux"'
+bindsym $mod+Shift+Return exec gnome-terminal -e 'sh -c "tmux attach || tmux"'
+bindsym $mod+Return exec gnome-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -157,6 +158,8 @@ bindsym $mod+r mode "resize"
 exec --no-startup-id xrandr --dpi 180
 exec --no-startup-id nm-applet
 for_window [class="^.*"] border pixel 0
+gaps inner 25
+smart_gaps on
 #bindsym $mod+s exec i3exit suspend, mode "default"
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
