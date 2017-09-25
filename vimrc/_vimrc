@@ -3,7 +3,6 @@ se nocp
 cal plug#begin()
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'Raimondi/delimitMate'
-Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
 Plug 'ervandew/supertab'
 Plug 'jmcantrell/vim-virtualenv', {'for': ['python']}
@@ -12,13 +11,12 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim', {'for': ['markdown', 'text']}
 Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/vim-peekaboo'
 Plug 'majutsushi/tagbar'
 Plug 'mattn/emmet-vim'
-Plug 'python-mode/python-mode'
+Plug 'davidhalter/jedi-vim'
 Plug 'scrooloose/nerdcommenter' 
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
-Plug 'vim-syntastic/syntastic'
+Plug 'luochen1990/rainbow'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -28,12 +26,23 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'wakatime/vim-wakatime'
 Plug 'wellle/targets.vim'
+Plug 'w0rp/ale'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 cal plug#end()
 
 pa! matchit
+
+if !exists("g:os")
+    if has("win64") || has("win32") || has("win16")
+        let g:os = "Windows"
+    else
+        let g:os = substitute(system('uname'), '\n', '', '')
+    endif
+endif
+
 se enc=utf-8
+se gfn="Bitstream Vera Sans Mono:h10"
 colo industry
 let mapleader="\<Space>"
 se ul=1000
@@ -47,7 +56,7 @@ se sw=4
 se et
 se fdl=99
 se fdm=indent
-se gfn=Fira\ Mono\ for\ Powerline:h12
+"se gfn=Fira\ Mono\ for\ Powerline:h12
 se hid
 se ic
 se scs
@@ -82,11 +91,22 @@ se go-=L
 
 syn enable
 
+if g:os =~ "Windows"
+    map <f12> :sil !start /min ctags -R --python-kinds=-i<cr>
+elseif g:os =~ "Linux"
+    map <f12> :sil! !ctags -R --python-kinds=-i<cr>
+endif
+
 aug all
     au!
     au BufWritePost $MYVIMRC so $MYVIMRC
-    au BufWritePost *.py sil !start /min ctags -R --python-kinds=-i
-    au BufWritePre *.py sil PymodeLintAuto 
+
+    if g:os =~ "win"
+        au BufWritePost *.py sil !/min ctags -R --python-kinds=-i
+    elseif g:os =~ "linux"
+        au BufWritePost *.py sil !ctags -R --python-kinds=-i
+    endif
+
     au FileType html,css EmmetInstall
     au FileType nerdtree setl rnu
     au FileType python nn <buffer> <F5> :!start cmd /c python % & pause<cr>
@@ -95,7 +115,6 @@ aug all
     au QuickFixCmdPost * cw
 aug END
 
-map <f12> :sil !start /min ctags -R --python-kinds=-i<cr>
 
 no <Leader>a ggVG
 
@@ -194,32 +213,10 @@ let g:NERDTreeIgnore=['\.swp$', '\.un\~$', '\.pyc$', 'tags', '\.ropeproject[[dir
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list=1
 let g:syntastic_check_on_open=1
-let g:syntastic_python_checkers=[] 
+let g:syntastic_python_checkers=['pylint'] 
 let g:syntastic_markdown_checkers=['proselint']
 let g:syntastic_text_checkers=['proselint']
-
-let g:pymode=1
-let g:pymode_indent=1
-let g:pymode_lint=1
-let g:pymode_lint_checkers=['pyflakes', 'pep8']
-let g:pymode_options_max_line_length=119
-let g:pymode_lint_cwindow=1
-let g:pymode_lint_on_fly=1
-let g:pymode_lint_options_pep8={'max_line_length': g:pymode_options_max_line_length}
-let g:pymode_lint_todo_symbol='TD'
-let g:pymode_motion=1
-let g:pymode_options_colorcolumn=1
-let g:pymode_doc=1
-let g:pymode_rope=1
-let g:pymode_rope_lookup_project=0
-let g:pymode_rope_autoimport=0
-let g:pymode_rope_completion=1
-let g:pymode_rope_complete_on_dot=1
-let g:pymode_syntax=0
-let g:pymode_trim_whitespaces=1
-let g:pymode_virtualenv=1
-"Find a better keybinding
-let g:pymode_rope_rename_bind='<C-C>r'
+let g:syntastic_javascript_checkers=['eslint']
 
 let g:virtualenv_auto_activate=1
 
@@ -232,6 +229,8 @@ let g:tagbar_show_linenumbers=2
 let g:tagbar_iconchars=['▶', '▼']
 let g:tagbar_silent=1
 let g:tagbar_sort=0
+
+let g:rainbow_active=1
 
 let g:session_autoload='no'
 
@@ -246,3 +245,5 @@ endf
 func! s:ToggleBreakpoint()
     if getline('.')=~#'^\s*import\sipdb' | cal s:RemoveBreakpoint() | el | cal s:SetBreakpoint() | en
 endf
+
+cmap w!! %!sudo tee > /dev/null %
