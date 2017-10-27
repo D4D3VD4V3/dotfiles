@@ -85,7 +85,7 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+#bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -164,9 +164,10 @@ smart_gaps on
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
-bindsym XF86MonBrightnessUp exec xbacklight -inc 1
-bindsym XF86MonBrightnessDown exec xbacklight -dec 1
+bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 1
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 1
 bindsym $mod+c exec chromium
+bindsym $mod+space exec gnome-terminal -e "ranger"
 bindsym $mod+shift+p exec $HOME/.config/polybar/launch.sh
 bindsym Print exec spectacle
 bindsym $mod+x [urgent=latest] focus
