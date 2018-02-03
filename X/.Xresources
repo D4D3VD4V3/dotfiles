@@ -1,0 +1,14 @@
+Xft.autohint: 0
+Xft.antialias: true
+Xft.rgba: rgb
+Xft.hinting: true
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+Xft.dpi: 220
+
+URxvt.scrollBar: false
+URxvt.font: xft:Anonymous Pro:size=12
+URxvt.letterSpace: -1
+URxvt.foreground: green
+URxvt.background: black
+URxvt.color4: #00DDFF
