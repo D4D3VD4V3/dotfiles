@@ -30,6 +30,7 @@ Plug 'wakatime/vim-wakatime'
 Plug 'wellle/targets.vim'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
+Plug 'unblevable/quick-scope'
 cal plug#end()
 
 pa! matchit
@@ -43,7 +44,7 @@ if !exists("g:os")
 endif
 
 se enc=utf-8
-se gfn="Bitstream Vera Sans Mono:h10"
+se guifont=Anonymice\ Pro\ 20
 colo industry
 let mapleader="\<Space>"
 se ul=1000
@@ -63,6 +64,9 @@ se ic
 se scs
 se is
 se ls=2
+se synmaxcol=300
+se ttyfast
+se lazyredraw
 noh
 se nowrap
 se nu
@@ -92,11 +96,11 @@ se go-=L
 
 syn enable
 
-if g:os =~ "Windows"
-    map <f12> :sil !start /min ctags -R --python-kinds=-i<cr>
-elseif g:os =~ "Linux"
-    map <f12> :sil! !ctags -R --python-kinds=-i<cr>
-endif
+"if g:os =~ "Windows"
+    "map <f12> :sil !start /min ctags -R --python-kinds=-i<cr>
+"elseif g:os =~ "Linux"
+    "map <f12> :sil! !ctags -R --python-kinds=-i<cr>
+"endif
 
 aug all
     au!
@@ -105,7 +109,7 @@ aug all
     if g:os =~ "win"
         au BufWritePost *.py sil !/min ctags -R --python-kinds=-i
     elseif g:os =~ "linux"
-        au BufWritePost *.py sil !ctags -R --python-kinds=-i
+        "au BufWritePost *.py sil !ctags -R --python-kinds=-i
     endif
 
     au FileType html,css EmmetInstall
@@ -222,6 +226,7 @@ let g:tagbar_show_linenumbers=2
 let g:tagbar_iconchars=['▶', '▼']
 let g:tagbar_silent=1
 let g:tagbar_sort=0
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 let g:rainbow_active=1
 
@@ -242,3 +247,11 @@ endf
 cmap w!! %!sudo tee > /dev/null %
 
 let g:tex_flavor = 'latex'
+
+function! Hardcopy()
+  let colors_save = g:colors_name
+  colorscheme default
+  TOhtml
+  execute 'colorscheme' colors_save
+endfun
+command! Hardcopy call Hardcopy()
