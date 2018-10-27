@@ -51,6 +51,7 @@ se ul=1000
 se ai
 se si
 se ar
+se wrap
 se bs=indent,eol,start
 se ts=4
 se sts=4
@@ -247,3 +248,48 @@ endf
 cmap w!! %!sudo tee > /dev/null %
 
 let g:tex_flavor = 'latex'
+
+function! Hardcopy()
+  let colors_save = g:colors_name
+  colorscheme default
+  TOhtml
+  execute 'colorscheme' colors_save
+endfun
+command! Hardcopy call Hardcopy()
+
+
+"MOVE BY DISPLAY LINES INSTEAD OF WRAPPED LINES
+noremap   <silent> k gk
+noremap   <silent> j gj
+noremap   <silent> 0 g0
+noremap   <silent> ^ g^
+noremap   <silent> $ g$
+" noremap   <silent> <Home> g<Home>
+" noremap   <silent> <End> g<End>
+function! NoremapNormalCmd(key, preserve_omni, ...)
+  let cmd = ''
+  let icmd = ''
+  for x in a:000
+    let cmd .= x
+    let icmd .= "<C-\\><C-O>" . x
+  endfor
+  execute ":nnoremap <silent> " . a:key . " " . cmd
+  execute ":vnoremap <silent> " . a:key . " " . cmd
+  if a:preserve_omni
+    execute ":inoremap <silent> <expr> " . a:key . " pumvisible() ? \"" . a:key . "\" : \"" . icmd . "\""
+  else
+    execute ":inoremap <silent> " . a:key . " " . icmd
+  endif
+endfunction
+
+" Cursor moves by screen lines
+call NoremapNormalCmd("<Up>", 1, "gk")
+call NoremapNormalCmd("<Down>", 1, "gj")
+call NoremapNormalCmd("<Home>", 0, "g<Home>")
+call NoremapNormalCmd("<End>", 0, "g<End>")
+
+" PageUp/PageDown preserve relative cursor position
+call NoremapNormalCmd("<PageUp>", 0, "<C-U>", "<C-U>")
+call NoremapNormalCmd("<PageDown>", 0, "<C-D>", "<C-D>")
+"END MOVE BY DISPLAY LINES INSTEAD OF WRAPPED LINES
+
