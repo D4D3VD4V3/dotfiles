@@ -119,6 +119,7 @@ bindsym $mod+Shift+0 move container to workspace 10
 
 bindsym $mod+Tab workspace next
 bindsym $mod+Shift+Tab workspace prev
+bindsym $mod+p workspace back_and_forth
 
 
 # reload the configuration file
@@ -154,17 +155,38 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+# class                 border  backgr. text    indicator child_border
+ client.focused          #008800 #008800 #000000 #2e9ef4   #008800
+ client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
+ client.unfocused        #000000 #222222 #00FF00 #292d2e   #222222
+ client.urgent           #2f343a #900000 #ffffff #900000   #900000
+ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+
+ client.background       #ffffff
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
         status_command i3status
+colors {
+        background #000000
+        statusline #ffffff
+        separator #666666
+
+        focused_workspace  #00FF00 #000000 #00FF00
+        active_workspace   #333333 #5f676a #ffffff
+        inactive_workspace #000000 #000000 #00FF00
+        urgent_workspace   #000000 #000000 #FF0000
+        binding_mode       #2f343a #900000 #ffffff
+    }
 }
 #exec --no-startup-id xrandr --dpi 180
 exec --no-startup-id nm-applet
 #exec --no-startup-id feh --bg-fill ~/Desktop/grub2-themes/grub-themes-vimix/Vimix/background.jpg
 exec --no-startup-id feh --bg-fill ~/Downloads/cyberpunk.jpg
 exec xset b off
-for_window [class="^.*"] border pixel 0
+for_window [class="^.*"] border normal 3
+hide_edge_borders both
 #bindsym $mod+s exec i3exit suspend, mode "default"
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
@@ -175,7 +197,8 @@ bindsym $mod+c exec chromium
 bindsym $mod+space exec xfce4-terminal -e "ranger"
 #bindsym $mod+shift+p exec $HOME/.config/polybar/launch.sh
 bindsym Print exec spectacle
-bindsym $mod+shift+x exec i3lock -c 000000 -f -e
+#bindsym $mod+shift+x exec i3lock -c 000000 -f -e
+bindsym $mod+shift+x exec betterlockscreen -l dim -t ""
 bindsym $mod+x [urgent=latest] focus
 bindsym $mod+m exec i3-input -F 'mark %s' -l 1 -P 'Mark: '
 bindsym $mod+apostrophe exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Go to: '
