@@ -1,36 +1,38 @@
 se nocp
 
 cal plug#begin()
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'python/black'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'alvan/vim-closetag'
-Plug 'davidhalter/jedi-vim'
+"Plug 'davidhalter/jedi-vim'
 Plug 'ervandew/supertab'
 Plug 'jmcantrell/vim-virtualenv', {'for': ['python']}
 Plug 'jremmen/vim-ripgrep'
 Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim', {'for': ['markdown', 'text']}
 Plug 'junegunn/vim-easy-align'
 Plug 'lervag/vimtex'
 Plug 'luochen1990/rainbow'
 Plug 'majutsushi/tagbar'
 Plug 'mattn/emmet-vim'
-Plug 'scrooloose/nerdcommenter' 
+Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'w0rp/ale'
-Plug 'wakatime/vim-wakatime'
+Plug 'dense-analysis/ale'
 Plug 'wellle/targets.vim'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 Plug 'unblevable/quick-scope'
+Plug 'kkoomen/vim-doge'
+"Plug 'nvie/vim-flake8', {'for': 'python'}
+Plug 'flebel/vim-mypy', { 'for': 'python', 'branch': 'bugfix/fast_parser_is_default_and_only_parser' }
 cal plug#end()
 
 pa! matchit
@@ -43,18 +45,27 @@ if !exists("g:os")
     endif
 endif
 
+se cursorline
 se enc=utf-8
-se guifont=Anonymice\ Pro\ 20
+"se guifont=Anonymice\ Pro\ 20
 colo industry
 let mapleader="\<Space>"
+se noerrorbells
+se novisualbell
 se ul=1000
 se ai
 se si
 se ar
+se linebreak
+se history=9999
+se formatoptions+=r
+se wrap
 se bs=indent,eol,start
 se ts=4
 se sts=4
 se sw=4
+se ttimeoutlen=10
+"se ttimeout
 se et
 se fdl=99
 se fdm=indent
@@ -75,17 +86,19 @@ se so=9
 se shm+=I
 se sc
 se sm
+se sr
+se ruler
 se bk
 se udf
 se ut=750
 se wmnu
 se bri
-se smc=200
 
 if !isdirectory(expand("~/.vim/tmp")) | cal mkdir(expand("~/.vim/tmp"), "p") | en
 se dir=~/.vim/tmp//,.
 se bdir=~/.vim/tmp//,.
 se udir=~/.vim/tmp//,.
+se undofile
 
 se noeb vb t_vb=
 
@@ -93,6 +106,13 @@ se go-=m
 se go-=T
 se go-=r
 se go-=L
+se go+=c
+
+se viminfo=!,h,'500
+se viminfo+=<10000
+se viminfo+=s1000
+se viminfo+=/1000
+se viminfo+=:1000
 
 syn enable
 
@@ -118,10 +138,19 @@ aug all
     au FileType python nn <F6> :cal <SID>ToggleBreakpoint()<CR>
     au GuiEnter * sim ~x
     au QuickFixCmdPost * cw
+    au GUIEnter * set vb t_vb=
 aug END
 
 
+"function! AleDogePatch()
+    "ALEDisable
+    "call doge#generate()
+    "ALEEnable
+"endfun
+
 no <Leader>a ggVG
+nn <leader>ll :ALEToggle<CR>
+"no <Leader>d call AleDogePatch()
 
 sil! nm <F3> :NERDTreeFind<CR>
 sil! nm <F4> :NERDTreeToggle<CR>
@@ -135,17 +164,6 @@ cno <C-BS> <C-W>
 xn < <gv
 xn > >gv
 
-nm <leader>1 <Plug>AirlineSelectTab1
-nm <leader>2 <Plug>airlineSelectTab2
-nm <leader>3 <Plug>AirlineSelectTab3
-nm <leader>4 <Plug>AirlineSelectTab4
-nm <leader>5 <Plug>AirlineSelectTab5
-nm <leader>6 <Plug>AirlineSelectTab6
-nm <leader>7 <Plug>AirlineSelectTab7
-nm <leader>8 <Plug>AirlineSelectTab8
-nm <leader>9 <Plug>AirlineSelectTab9
-nm <leader>- <Plug>AirlineSelectPrevTab
-nm <leader>+ <Plug>AirlineSelectNextTab
 nm <silent> <Leader>e :e $MYVIMRC<CR>
 nm <leader>w :w!<cr>
 nm <leader>v :vs<CR><C-L><C-F>:se scb<CR><C-H>:se scb<CR>
@@ -189,29 +207,9 @@ nn <Down> <C-W>-
 "No Ex mode ugh
 nn Q <nop>
 
-if !exists('g:airline_symbols') | let g:airline_symbols={} | en
 
-let g:airline#extensions#branch#enabled=1
-let g:airline#extensions#tabline#buffer_idx_mode=1
-let g:airline#extensions#tabline#enabled=1
-let g:airline#extensions#tabline#tab_nr_type=2
-let g:airline#extensions#virtualenv#enabled=1
-let g:airline#extensions#whitespace#enabled=0
-let g:airline_detect_modified=1
-let g:airline_powerline_fonts=1
-let g:airline_mode_map={
-    \ '__' : '-',
-    \ 'n'  : 'N',
-    \ 'i'  : 'I',
-    \ 'R'  : 'R',
-    \ 'c'  : 'C',
-    \ 'v'  : 'V',
-    \ 'V'  : 'V',
-    \ '' : 'V',
-    \ 's'  : 'S',
-    \ 'S'  : 'S',
-    \ '' : 'S',
-    \ }
+let g:doge_doc_standard_python = 'numpy'
+let g:session_autosave='yes'
 
 let g:NERDTreeIgnore=['\.swp$', '\.un\~$', '\.pyc$', 'tags', '\.ropeproject[[dir]]', '__pycache__[[dir]]']
 
@@ -232,6 +230,13 @@ let g:rainbow_active=1
 
 let g:session_autoload='no'
 
+let g:ale_linters = {'python': ['flake8', 'mypy']}
+let g:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace'], 'python': ['black', 'isort', 'add_blank_lines_for_python_control_statements']}
+let g:ale_fix_on_save = 1
+let g:ale_open_list = 1
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
 func! s:SetBreakpoint()
     cal append('.', repeat(' ', strlen(matchstr(getline('.'), '^\s*'))) . 'import ipdb; ipdb.set_trace()')
 endf
@@ -248,6 +253,9 @@ cmap w!! %!sudo tee > /dev/null %
 
 let g:tex_flavor = 'latex'
 
+let g:flake8_quickfix_location="topleft"
+let g:flake8_show_in_gutter=1
+
 function! Hardcopy()
   let colors_save = g:colors_name
   colorscheme default
@@ -255,3 +263,39 @@ function! Hardcopy()
   execute 'colorscheme' colors_save
 endfun
 command! Hardcopy call Hardcopy()
+
+
+"MOVE BY DISPLAY LINES INSTEAD OF WRAPPED LINES
+noremap   <silent> k gk
+noremap   <silent> j gj
+noremap   <silent> 0 g0
+noremap   <silent> ^ g^
+noremap   <silent> $ g$
+" noremap   <silent> <Home> g<Home>
+" noremap   <silent> <End> g<End>
+function! NoremapNormalCmd(key, preserve_omni, ...)
+  let cmd = ''
+  let icmd = ''
+  for x in a:000
+    let cmd .= x
+    let icmd .= "<C-\\><C-O>" . x
+  endfor
+  execute ":nnoremap <silent> " . a:key . " " . cmd
+  execute ":vnoremap <silent> " . a:key . " " . cmd
+  if a:preserve_omni
+    execute ":inoremap <silent> <expr> " . a:key . " pumvisible() ? \"" . a:key . "\" : \"" . icmd . "\""
+  else
+    execute ":inoremap <silent> " . a:key . " " . icmd
+  endif
+endfunction
+
+" Cursor moves by screen lines
+call NoremapNormalCmd("<Up>", 1, "gk")
+call NoremapNormalCmd("<Down>", 1, "gj")
+call NoremapNormalCmd("<Home>", 0, "g<Home>")
+call NoremapNormalCmd("<End>", 0, "g<End>")
+
+" PageUp/PageDown preserve relative cursor position
+call NoremapNormalCmd("<PageUp>", 0, "<C-U>", "<C-U>")
+call NoremapNormalCmd("<PageDown>", 0, "<C-D>", "<C-D>")
+"END MOVE BY DISPLAY LINES INSTEAD OF WRAPPED LINES
