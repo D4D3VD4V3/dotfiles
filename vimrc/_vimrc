@@ -45,15 +45,22 @@ if !exists("g:os")
     endif
 endif
 
+
+function! s:PlugSort()
+    let l:start = search('\v\C^%(^\s*"?\s*Plug)@!.*\n\zs', 'bcWn')
+    let l:end = search('\v\C.\ze\n%(^\s*"?\s*Plug)@!', 'cW')
+    exec l:start.','.l:end.'sort /^\s*"\?\s*Plug\s\+''[^\/]\+\// i'
+    echon 'plugins sorted'
+endfunction
+
 se cursorline
 se enc=utf-8
 "se guifont=Anonymice\ Pro\ 20
 colo industry
 let mapleader="\<Space>"
-se noerrorbells
-se novisualbell
 se ul=1000
 se ai
+se complete+=kspell
 se si
 se ar
 se linebreak
@@ -100,6 +107,7 @@ se bdir=~/.vim/tmp//,.
 se udir=~/.vim/tmp//,.
 se undofile
 
+"hush
 se noeb vb t_vb=
 
 se go-=m
@@ -116,29 +124,31 @@ se viminfo+=:1000
 
 syn enable
 
-"if g:os =~ "Windows"
-    "map <f12> :sil !start /min ctags -R --python-kinds=-i<cr>
-"elseif g:os =~ "Linux"
-    "map <f12> :sil! !ctags -R --python-kinds=-i<cr>
-"endif
+nn <Leader>ocp :!start cmd /k cd %:p:h<cr>
+nn <Leader>owe :!start Explorer /select,%:p<cr>
+
+if g:os =~ "Windows"
+    nn <f12> :sil !ctags -R --python-kinds=-i %<cr>
+elseif g:os =~ "Linux"
+    nn <f12> :sil! !ctags -R --python-kinds=-i %<cr>
+endif
 
 aug all
     au!
-    au BufWritePost $MYVIMRC so $MYVIMRC
+    au BufWritePost $MYVIMRC so $MYVIMRC | cal s:PlugSort()
 
     if g:os =~ "win"
-        au BufWritePost *.py sil !/min ctags -R --python-kinds=-i
+        au BufWritePost *.py sil !start cmd /min ctags -R --python-kinds=-i
+        au FileType python nn <buffer> <F5> :!start cmd /c python % & pause<cr>
     elseif g:os =~ "linux"
-        "au BufWritePost *.py sil !ctags -R --python-kinds=-i
+        au BufWritePost *.py sil !ctags -R --python-kinds=-i
     endif
 
     au FileType html,css EmmetInstall
     au FileType nerdtree setl rnu
-    au FileType python nn <buffer> <F5> :!start cmd /c python % & pause<cr>
     au FileType python nn <F6> :cal <SID>ToggleBreakpoint()<CR>
     au GuiEnter * sim ~x
     au QuickFixCmdPost * cw
-    au GUIEnter * set vb t_vb=
 aug END
 
 
@@ -212,6 +222,7 @@ let g:doge_doc_standard_python = 'numpy'
 let g:session_autosave='yes'
 
 let g:NERDTreeIgnore=['\.swp$', '\.un\~$', '\.pyc$', 'tags', '\.ropeproject[[dir]]', '__pycache__[[dir]]']
+let g:NERDDefaultAlign = 'left'
 
 let g:virtualenv_auto_activate=1
 
