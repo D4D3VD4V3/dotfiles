@@ -48,12 +48,17 @@ endif
 
 function! s:PlugSort()
     let l:start = search('\v\C^%(^\s*"?\s*Plug)@!.*\n\zs', 'bcWn')
+    echom(l:start)
+    "cursor(l:start, 1)
     let l:end = search('\v\C.\ze\n%(^\s*"?\s*Plug)@!', 'cW')
+    echom(l:end)
     exec l:start.','.l:end.'sort /^\s*"\?\s*Plug\s\+''[^\/]\+\// i'
     echon 'plugins sorted'
 endfunction
 
 se cursorline
+se path+=**
+se hlsearch
 se enc=utf-8
 "se guifont=Anonymice\ Pro\ 20
 colo industry
@@ -89,7 +94,7 @@ noh
 se nowrap
 se nu
 se rnu
-se so=9
+se so=5
 se shm+=I
 se sc
 se sm
@@ -108,7 +113,7 @@ se udir=~/.vim/tmp//,.
 se undofile
 
 "hush
-se noeb vb t_vb=
+se noeb novb t_vb=
 
 se go-=m
 se go-=T
@@ -138,7 +143,7 @@ aug all
     au BufWritePost $MYVIMRC so $MYVIMRC | cal s:PlugSort()
 
     if g:os =~ "win"
-        au BufWritePost *.py sil !start cmd /min ctags -R --python-kinds=-i
+        au BufWritePost *.py sil !ctags -R --python-kinds=-i
         au FileType python nn <buffer> <F5> :!start cmd /c python % & pause<cr>
     elseif g:os =~ "linux"
         au BufWritePost *.py sil !ctags -R --python-kinds=-i
