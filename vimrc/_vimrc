@@ -1,38 +1,41 @@
 se nocp
 
 cal plug#begin()
+Plug 'dense-analysis/ale'
+Plug 'ayu-theme/ayu-vim'
+Plug 'python/black', {'for': ['python']}
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'python/black'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'AndrewRadev/splitjoin.vim'
 Plug 'Raimondi/delimitMate'
-Plug 'alvan/vim-closetag'
-"Plug 'davidhalter/jedi-vim'
-Plug 'ervandew/supertab'
-Plug 'jmcantrell/vim-virtualenv', {'for': ['python']}
-Plug 'jremmen/vim-ripgrep'
+Plug 'mattn/emmet-vim', {'for': ['html', 'css']}
 Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim', {'for': ['markdown', 'text']}
-Plug 'junegunn/vim-easy-align'
-Plug 'lervag/vimtex'
-Plug 'luochen1990/rainbow'
-Plug 'majutsushi/tagbar'
-Plug 'mattn/emmet-vim'
+"Plug 'davidhalter/jedi-vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
+Plug 'unblevable/quick-scope'
+Plug 'luochen1990/rainbow'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'ervandew/supertab'
+Plug 'majutsushi/tagbar'
+Plug 'wellle/targets.vim'
 Plug 'tpope/vim-abolish'
+Plug 'alvan/vim-closetag'
+Plug 'kkoomen/vim-doge', {'for': ['python']}
+Plug 'junegunn/vim-easy-align'
+"Plug 'nvie/vim-flake8', {'for': 'python'}
 Plug 'tpope/vim-fugitive'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go'}
+Plug 'xolox/vim-misc'
+Plug 'flebel/vim-mypy', { 'for': 'python', 'branch': 'bugfix/fast_parser_is_default_and_only_parser' }
 Plug 'tpope/vim-repeat'
+Plug 'jremmen/vim-ripgrep'
+Plug 'xolox/vim-session'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'dense-analysis/ale'
-Plug 'wellle/targets.vim'
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-session'
-Plug 'unblevable/quick-scope'
-Plug 'kkoomen/vim-doge'
-"Plug 'nvie/vim-flake8', {'for': 'python'}
-Plug 'flebel/vim-mypy', { 'for': 'python', 'branch': 'bugfix/fast_parser_is_default_and_only_parser' }
+Plug 'jmcantrell/vim-virtualenv', {'for': ['python']}
+Plug 'lervag/vimtex', {'for': ['tex']}
+
 cal plug#end()
 
 pa! matchit
@@ -59,10 +62,23 @@ endfunction
 se cursorline
 se path+=**
 se hlsearch
+se wrap
 se enc=utf-8
+se termguicolors
+let ayucolor="dark"
 "se guifont=Anonymice\ Pro\ 20
-colo industry
+"colo industry
+colorscheme ayu
 let mapleader="\<Space>"
+"set list listchars=tab:\uBB,trail:\uB7,nbsp:~
+
+"if has('gui_running')
+    "set list listchars=tab:▶‒,nbsp:∙,trail:∙,extends:▶,precedes:◀
+    "let &showbreak = '↳'
+"else
+    "set list listchars=tab:>-,nbsp:.,trail:.,extends:>,precedes:<
+    "let &showbreak = '^'
+"endif
 se ul=1000
 se ai
 se complete+=kspell
@@ -129,8 +145,6 @@ se viminfo+=:1000
 
 syn enable
 
-nn <Leader>ocp :!start cmd /k cd %:p:h<cr>
-nn <Leader>owe :!start Explorer /select,%:p<cr>
 
 if g:os =~ "Windows"
     nn <f12> :sil !ctags -R --python-kinds=-i %<cr>
@@ -167,6 +181,7 @@ no <Leader>a ggVG
 nn <leader>ll :ALEToggle<CR>
 "no <Leader>d call AleDogePatch()
 
+nn <Leader>b :ls<CR>:b<Space>
 sil! nm <F3> :NERDTreeFind<CR>
 sil! nm <F4> :NERDTreeToggle<CR>
 sil! nm <F8> :TagbarToggle<CR>
@@ -186,6 +201,9 @@ nm <leader>v :vs<CR><C-L><C-F>:se scb<CR><C-H>:se scb<CR>
 nn <leader>cp :let @*='"' . expand("%:p") . '"'<CR>
 nn <leader>cd :let @*='"' . expand("%:p:h") . '"'<CR>
 nn <leader>oe :sil! !start <C-R>='"' . expand("%:p:h") . '"'<CR><CR>
+nn <Leader>owe :!start Explorer /select,%:p<cr>
+nn <Leader>ocp :!start cmd /k cd %:p:h<cr>
+nn <silent> <CR> :nohlsearch<CR><CR>
 nn <C-P> :FZF<CR>
 
 nn <Leader>qo :cope<CR>
