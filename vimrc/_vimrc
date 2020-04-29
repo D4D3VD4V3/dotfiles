@@ -3,7 +3,7 @@ se nocp
 cal plug#begin()
 Plug 'dense-analysis/ale'
 Plug 'ayu-theme/ayu-vim'
-Plug 'python/black', {'for': ['python']}
+"Plug 'python/black', {'for': ['python']}
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'Raimondi/delimitMate'
 Plug 'mattn/emmet-vim', {'for': ['html', 'css']}
@@ -20,20 +20,21 @@ Plug 'ervandew/supertab'
 Plug 'majutsushi/tagbar'
 Plug 'wellle/targets.vim'
 Plug 'tpope/vim-abolish'
-Plug 'alvan/vim-closetag'
+Plug 'alvan/vim-closetag', {'for': ['html, xhtml', 'phtml', 'xml']}
 Plug 'kkoomen/vim-doge', {'for': ['python']}
 Plug 'junegunn/vim-easy-align'
 "Plug 'nvie/vim-flake8', {'for': 'python'}
 Plug 'tpope/vim-fugitive'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go'}
 Plug 'xolox/vim-misc'
-Plug 'flebel/vim-mypy', { 'for': 'python', 'branch': 'bugfix/fast_parser_is_default_and_only_parser' }
+"Plug 'flebel/vim-mypy', { 'for': 'python', 'branch': 'bugfix/fast_parser_is_default_and_only_parser' }
+Plug 'xolox/vim-notes'
 Plug 'tpope/vim-repeat'
 Plug 'jremmen/vim-ripgrep'
 Plug 'xolox/vim-session'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'jmcantrell/vim-virtualenv', {'for': ['python']}
+"Plug 'jmcantrell/vim-virtualenv', {'for': ['python']}
 Plug 'lervag/vimtex', {'for': ['tex']}
 
 cal plug#end()
@@ -48,15 +49,24 @@ if !exists("g:os")
     endif
 endif
 
+function! s:ResizeNewWindow()
+    let s:max_line_length = max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
+    let s:pref_min_line_length = 80
+    let s:offset = 10
+    "echom (s:max_line_length < s:pref_min_line_length ? s:pref_min_line_length : s:max_line_length)
+    "echom  max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
+    "let &co=getline(1,'$')->map({ idx, val -> strchars(val) })->max()
+    let &co = (s:max_line_length < s:pref_min_line_length ?  s:pref_min_line_length : (s:max_line_length + s:offset))
+endfun
 
 function! s:PlugSort()
     let l:start = search('\v\C^%(^\s*"?\s*Plug)@!.*\n\zs', 'bcWn')
-    echom(l:start)
+    "echom(l:start)
     "cursor(l:start, 1)
     let l:end = search('\v\C.\ze\n%(^\s*"?\s*Plug)@!', 'cW')
-    echom(l:end)
+    "echom(l:end)
     exec l:start.','.l:end.'sort /^\s*"\?\s*Plug\s\+''[^\/]\+\// i'
-    echon 'plugins sorted'
+    "echon 'plugins sorted'
 endfunction
 
 se cursorline
@@ -67,6 +77,7 @@ se enc=utf-8
 se termguicolors
 let ayucolor="dark"
 "se guifont=Anonymice\ Pro\ 20
+se guifont=Anonymice_Powerline:h11:cANSI:qDRAFT
 "colo industry
 colorscheme ayu
 let mapleader="\<Space>"
@@ -79,6 +90,7 @@ let mapleader="\<Space>"
     "set list listchars=tab:>-,nbsp:.,trail:.,extends:>,precedes:<
     "let &showbreak = '^'
 "endif
+
 se ul=1000
 se ai
 se complete+=kspell
@@ -111,7 +123,7 @@ se nowrap
 se nu
 se rnu
 se so=5
-se shm+=I
+se shm+=Ia
 se sc
 se sm
 se sr
@@ -166,8 +178,12 @@ aug all
     au FileType html,css EmmetInstall
     au FileType nerdtree setl rnu
     au FileType python nn <F6> :cal <SID>ToggleBreakpoint()<CR>
-    au GuiEnter * sim ~x
+    "au GuiEnter * sim ~x "Maximized GVIM Window
     au QuickFixCmdPost * cw
+    "au OptionSet nowrap cal DisableDisplayLineMappings()
+    au OptionSet wrap cal ToggleDisplayLineMappings()
+    "au VimEnter * call s:ResizeNewWindow()
+    "au BufEnter * call s:ResizeNewWindow()
 aug END
 
 
@@ -194,9 +210,10 @@ cno <C-BS> <C-W>
 xn < <gv
 xn > >gv
 
-nm <silent> <Leader>e :e $MYVIMRC<CR>
-nm <leader>w :w!<cr>
-nm <leader>v :vs<CR><C-L><C-F>:se scb<CR><C-H>:se scb<CR>
+nn <leader>n :Note<CR>
+nn <silent> <Leader>e :e $MYVIMRC<CR>
+nn <leader>w :w!<cr>
+nn <leader>v :vs<CR><C-L><C-F>:se scb<CR><C-H>:se scb<CR>
 
 nn <leader>cp :let @*='"' . expand("%:p") . '"'<CR>
 nn <leader>cd :let @*='"' . expand("%:p:h") . '"'<CR>
@@ -241,6 +258,10 @@ nn <Down> <C-W>-
 nn Q <nop>
 
 
+if isdirectory("C:/Users/User/Dropbox/VimNotes")
+    let g:notes_directories = ["C:/Users/User/Dropbox/VimNotes"]
+endif
+"let g:notes_suffix = '.txt'
 let g:doge_doc_standard_python = 'numpy'
 let g:session_autosave='yes'
 
@@ -299,37 +320,18 @@ endfun
 command! Hardcopy call Hardcopy()
 
 
-"MOVE BY DISPLAY LINES INSTEAD OF WRAPPED LINES
-noremap   <silent> k gk
-noremap   <silent> j gj
-noremap   <silent> 0 g0
-noremap   <silent> ^ g^
-noremap   <silent> $ g$
-" noremap   <silent> <Home> g<Home>
-" noremap   <silent> <End> g<End>
-function! NoremapNormalCmd(key, preserve_omni, ...)
-  let cmd = ''
-  let icmd = ''
-  for x in a:000
-    let cmd .= x
-    let icmd .= "<C-\\><C-O>" . x
-  endfor
-  execute ":nnoremap <silent> " . a:key . " " . cmd
-  execute ":vnoremap <silent> " . a:key . " " . cmd
-  if a:preserve_omni
-    execute ":inoremap <silent> <expr> " . a:key . " pumvisible() ? \"" . a:key . "\" : \"" . icmd . "\""
-  else
-    execute ":inoremap <silent> " . a:key . " " . icmd
-  endif
-endfunction
-
-" Cursor moves by screen lines
-call NoremapNormalCmd("<Up>", 1, "gk")
-call NoremapNormalCmd("<Down>", 1, "gj")
-call NoremapNormalCmd("<Home>", 0, "g<Home>")
-call NoremapNormalCmd("<End>", 0, "g<End>")
-
-" PageUp/PageDown preserve relative cursor position
-call NoremapNormalCmd("<PageUp>", 0, "<C-U>", "<C-U>")
-call NoremapNormalCmd("<PageDown>", 0, "<C-D>", "<C-D>")
-"END MOVE BY DISPLAY LINES INSTEAD OF WRAPPED LINES
+function! ToggleDisplayLineMappings()
+    if &wrap ==? 'nowrap'
+        unmap <silent> k
+        unmap <silent> j
+        unmap <silent> 0
+        unmap <silent> ^
+        unmap <silent> $
+    else
+        no <silent> k gk
+        no <silent> j gj
+        no <silent> 0 g0
+        no <silent> ^ g^
+        no <silent> $ g$
+    endif
+endfun!
