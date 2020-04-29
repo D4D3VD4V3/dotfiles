@@ -50,22 +50,23 @@ if !exists("g:os")
 endif
 
 function! s:ResizeNewWindow()
-    let s:max_line_length = max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
-    let s:pref_min_line_length = 80
-    let s:offset = 10
+    let l:max_line_length = max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
+    let l:pref_min_line_length = 80
+    let l:offset = 10
     "echom (s:max_line_length < s:pref_min_line_length ? s:pref_min_line_length : s:max_line_length)
     "echom  max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
     "let &co=getline(1,'$')->map({ idx, val -> strchars(val) })->max()
     let &co = (s:max_line_length < s:pref_min_line_length ?  s:pref_min_line_length : (s:max_line_length + s:offset))
 endfun
 
+"TODO: Fix this
 function! s:PlugSort()
-    let l:start = search('\v\C^%(^\s*"?\s*Plug)@!.*\n\zs', 'bcWn')
+    let start = search('\v\C^%(^\s*"?\s*Plug)@!.*\n\zs', 'bcWn')
     "echom(l:start)
     "cursor(l:start, 1)
-    let l:end = search('\v\C.\ze\n%(^\s*"?\s*Plug)@!', 'cW')
+    let end = search('\v\C.\ze\n%(^\s*"?\s*Plug)@!', 'cW')
     "echom(l:end)
-    exec l:start.','.l:end.'sort /^\s*"\?\s*Plug\s\+''[^\/]\+\// i'
+    exec start.','.end.'sort /^\s*"\?\s*Plug\s\+''[^\/]\+\// i'
     "echon 'plugins sorted'
 endfunction
 
@@ -79,7 +80,6 @@ let ayucolor="dark"
 "se guifont=Anonymice\ Pro\ 20
 se guifont=Anonymice_Powerline:h11:cANSI:qDRAFT
 "colo industry
-colorscheme ayu
 let mapleader="\<Space>"
 "set list listchars=tab:\uBB,trail:\uB7,nbsp:~
 
@@ -164,9 +164,33 @@ elseif g:os =~ "Linux"
     nn <f12> :sil! !ctags -R --python-kinds=-i %<cr>
 endif
 
+function! s:ToggleDisplayLineMappings()
+    if &wrap ==? 'nowrap'
+        unmap <silent> k
+        unmap <silent> j
+        unmap <silent> 0
+        unmap <silent> ^
+        unmap <silent> $
+    else
+        no <silent> k gk
+        no <silent> j gj
+        no <silent> 0 g0
+        no <silent> ^ g^
+        no <silent> $ g$
+    endif
+endfun
+
+function! s:FixAyuColorScheme()
+    if g:ayucolor==?'dark'
+        highlight LineNr guifg=#808080
+        highlight Normal guibg=#000000
+        highlight Comment guibg=#000000
+    endif
+endfun
+
 aug all
     au!
-    au BufWritePost $MYVIMRC so $MYVIMRC | cal s:PlugSort()
+    au BufWritePost $MYVIMRC nested so $MYVIMRC | cal s:PlugSort()
 
     if g:os =~ "win"
         au BufWritePost *.py sil !ctags -R --python-kinds=-i
@@ -181,10 +205,16 @@ aug all
     "au GuiEnter * sim ~x "Maximized GVIM Window
     au QuickFixCmdPost * cw
     "au OptionSet nowrap cal DisableDisplayLineMappings()
-    au OptionSet wrap cal ToggleDisplayLineMappings()
+    au OptionSet wrap cal s:ToggleDisplayLineMappings()
     "au VimEnter * call s:ResizeNewWindow()
     "au BufEnter * call s:ResizeNewWindow()
 aug END
+
+aug CustomAyuColorScheme
+    au!
+    au ColorScheme ayu call s:FixAyuColorScheme()
+aug END
+colorscheme ayu
 
 
 "function! AleDogePatch()
@@ -311,27 +341,10 @@ let g:tex_flavor = 'latex'
 let g:flake8_quickfix_location="topleft"
 let g:flake8_show_in_gutter=1
 
-function! Hardcopy()
+function! s:Hardcopy()
   let colors_save = g:colors_name
   colorscheme default
   TOhtml
   execute 'colorscheme' colors_save
 endfun
-command! Hardcopy call Hardcopy()
-
-
-function! ToggleDisplayLineMappings()
-    if &wrap ==? 'nowrap'
-        unmap <silent> k
-        unmap <silent> j
-        unmap <silent> 0
-        unmap <silent> ^
-        unmap <silent> $
-    else
-        no <silent> k gk
-        no <silent> j gj
-        no <silent> 0 g0
-        no <silent> ^ g^
-        no <silent> $ g$
-    endif
-endfun!
+command! Hardcopy call s:Hardcopy()
