@@ -5,6 +5,7 @@ Plug 'dense-analysis/ale'
 Plug 'ayu-theme/ayu-vim'
 "Plug 'python/black', {'for': ['python']}
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'lilydjwg/colorizer'
 Plug 'Raimondi/delimitMate'
 Plug 'mattn/emmet-vim', {'for': ['html', 'css']}
 Plug 'junegunn/fzf'
@@ -50,13 +51,13 @@ if !exists("g:os")
 endif
 
 function! s:ResizeNewWindow()
-    let l:max_line_length = max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
-    let l:pref_min_line_length = 80
-    let l:offset = 10
-    "echom (s:max_line_length < s:pref_min_line_length ? s:pref_min_line_length : s:max_line_length)
-    "echom  max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
-    "let &co=getline(1,'$')->map({ idx, val -> strchars(val) })->max()
-    let &co = (s:max_line_length < s:pref_min_line_length ?  s:pref_min_line_length : (s:max_line_length + s:offset))
+"    let l:max_line_length = max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
+"    let l:pref_min_line_length = 80
+"    let l:offset = 10
+"    "echom (s:max_line_length < s:pref_min_line_length ? s:pref_min_line_length : s:max_line_length)
+"    "echom  max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
+"    "let &co=getline(1,'$')->map({ idx, val -> strchars(val) })->max()
+"    let &co = (s:max_line_length < s:pref_min_line_length ?  s:pref_min_line_length : (s:max_line_length + s:offset))
 endfun
 
 "TODO: Fix this
@@ -74,14 +75,16 @@ se cursorline
 se path+=**
 se hlsearch
 se wrap
+se nowrapscan
 se enc=utf-8
 se termguicolors
 let ayucolor="dark"
 "se guifont=Anonymice\ Pro\ 20
 se guifont=Anonymice_Powerline:h11:cANSI:qDRAFT
+"se list listchars=tab:▸\ ,trail:•,extends:»,precedes:«,nbsp:␣
+"set list listchars=tab:\uBB,trail:\uB7,nbsp:~
 "colo industry
 let mapleader="\<Space>"
-"set list listchars=tab:\uBB,trail:\uB7,nbsp:~
 
 "if has('gui_running')
     "set list listchars=tab:▶‒,nbsp:∙,trail:∙,extends:▶,precedes:◀
@@ -122,6 +125,7 @@ noh
 se nowrap
 se nu
 se rnu
+se nojoinspaces
 se so=5
 se shm+=Ia
 se sc
@@ -188,35 +192,6 @@ function! s:FixAyuColorScheme()
     endif
 endfun
 
-aug all
-    au!
-    au BufWritePost $MYVIMRC nested so $MYVIMRC | cal s:PlugSort()
-
-    if g:os =~ "win"
-        au BufWritePost *.py sil !ctags -R --python-kinds=-i
-        au FileType python nn <buffer> <F5> :!start cmd /c python % & pause<cr>
-    elseif g:os =~ "linux"
-        au BufWritePost *.py sil !ctags -R --python-kinds=-i
-    endif
-
-    au FileType html,css EmmetInstall
-    au FileType nerdtree setl rnu
-    au FileType python nn <F6> :cal <SID>ToggleBreakpoint()<CR>
-    "au GuiEnter * sim ~x "Maximized GVIM Window
-    au QuickFixCmdPost * cw
-    "au OptionSet nowrap cal DisableDisplayLineMappings()
-    au OptionSet wrap cal s:ToggleDisplayLineMappings()
-    "au VimEnter * call s:ResizeNewWindow()
-    "au BufEnter * call s:ResizeNewWindow()
-aug END
-
-aug CustomAyuColorScheme
-    au!
-    au ColorScheme ayu call s:FixAyuColorScheme()
-aug END
-colorscheme ayu
-
-
 "function! AleDogePatch()
     "ALEDisable
     "call doge#generate()
@@ -231,6 +206,9 @@ nn <Leader>b :ls<CR>:b<Space>
 sil! nm <F3> :NERDTreeFind<CR>
 sil! nm <F4> :NERDTreeToggle<CR>
 sil! nm <F8> :TagbarToggle<CR>
+
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 com! -nargs=* -complete=help H helpg <args>
 
@@ -250,7 +228,7 @@ nn <leader>cd :let @*='"' . expand("%:p:h") . '"'<CR>
 nn <leader>oe :sil! !start <C-R>='"' . expand("%:p:h") . '"'<CR><CR>
 nn <Leader>owe :!start Explorer /select,%:p<cr>
 nn <Leader>ocp :!start cmd /k cd %:p:h<cr>
-nn <silent> <CR> :nohlsearch<CR><CR>
+nn <silent> <CR> :nohlsearch<CR>
 nn <C-P> :FZF<CR>
 
 nn <Leader>qo :cope<CR>
@@ -292,6 +270,9 @@ if isdirectory("C:/Users/User/Dropbox/VimNotes")
     let g:notes_directories = ["C:/Users/User/Dropbox/VimNotes"]
 endif
 "let g:notes_suffix = '.txt'
+
+let g:colorizer_maxlines = 500
+
 let g:doge_doc_standard_python = 'numpy'
 let g:session_autosave='yes'
 
@@ -338,13 +319,39 @@ cmap w!! %!sudo tee > /dev/null %
 
 let g:tex_flavor = 'latex'
 
-let g:flake8_quickfix_location="topleft"
-let g:flake8_show_in_gutter=1
-
 function! s:Hardcopy()
   let colors_save = g:colors_name
   colorscheme default
   TOhtml
   execute 'colorscheme' colors_save
 endfun
+
 command! Hardcopy call s:Hardcopy()
+
+aug all
+    au!
+    au BufWritePost $MYVIMRC nested so $MYVIMRC | cal s:PlugSort()
+
+    if g:os =~ "win"
+        au BufWritePost *.py sil !ctags -R --python-kinds=-i
+        au FileType python nn <buffer> <F5> :!start cmd /c python % & pause<cr>
+    elseif g:os =~ "linux"
+        au BufWritePost *.py sil !ctags -R --python-kinds=-i
+    endif
+
+    au FileType html,css EmmetInstall
+    au FileType nerdtree setl rnu
+    au FileType python nn <F6> :cal <SID>ToggleBreakpoint()<CR>
+    "au GuiEnter * sim ~x "Maximized GVIM Window
+    au QuickFixCmdPost * cw
+    "au OptionSet nowrap cal DisableDisplayLineMappings()
+    au OptionSet wrap cal s:ToggleDisplayLineMappings()
+    "au VimEnter * call s:ResizeNewWindow()
+    "au BufEnter * call s:ResizeNewWindow()
+aug END
+
+aug CustomAyuColorScheme
+    au!
+    au ColorScheme ayu call s:FixAyuColorScheme()
+aug END
+colorscheme ayu
