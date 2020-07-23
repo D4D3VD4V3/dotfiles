@@ -5,6 +5,7 @@ Plug 'dense-analysis/ale'
 Plug 'ayu-theme/ayu-vim'
 "Plug 'python/black', {'for': ['python']}
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'lilydjwg/colorizer'
 Plug 'Raimondi/delimitMate'
 Plug 'mattn/emmet-vim', {'for': ['html', 'css']}
@@ -18,6 +19,7 @@ Plug 'unblevable/quick-scope'
 Plug 'luochen1990/rainbow'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'ervandew/supertab'
+Plug 'dylnmc/synstack.vim'
 Plug 'majutsushi/tagbar'
 Plug 'wellle/targets.vim'
 Plug 'tpope/vim-abolish'
@@ -30,6 +32,7 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go'}
 Plug 'xolox/vim-misc'
 "Plug 'flebel/vim-mypy', { 'for': 'python', 'branch': 'bugfix/fast_parser_is_default_and_only_parser' }
 Plug 'xolox/vim-notes'
+Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-repeat'
 Plug 'jremmen/vim-ripgrep'
 Plug 'xolox/vim-session'
@@ -38,7 +41,7 @@ Plug 'tpope/vim-unimpaired'
 "Plug 'jmcantrell/vim-virtualenv', {'for': ['python']}
 Plug 'lervag/vimtex', {'for': ['tex']}
 Plug 'vimwiki/vimwiki'
-Plug 'sheerun/vim-polyglot'
+Plug 'neoclide/coc-java'
 
 cal plug#end()
 
@@ -73,6 +76,10 @@ function! s:PlugSort()
     "echon 'plugins sorted'
 endfunction
 
+if g:os =~ "Windows"
+    cabbr :: !wsl
+endif
+
 se cursorline
 se path+=**
 se hlsearch
@@ -83,6 +90,8 @@ se termguicolors
 let ayucolor="dark"
 "se guifont=Anonymice\ Pro\ 20
 se guifont=Anonymice_Powerline:h11:cANSI:qDRAFT
+
+se pythonthreedll=python37.dll
 "colo industry
 let mapleader="\<Space>"
 
@@ -187,9 +196,15 @@ endfun
 function! s:FixAyuColorScheme()
     if g:ayucolor==?'dark'
         highlight LineNr guifg=#808080
+        highlight Normal ctermbg=NONE
         highlight Normal guibg=#000000
         highlight Comment guibg=#000000
+        highlight String guibg=#000000
+
         highlight Search guibg=#ff8800 guifg=#000000
+        "for hl_group in getcompletion('', 'highlight')
+            "exe 'hi ' . hl_group . ' guibg=#000000 ctermbg=NONE'
+        "endfor
     endif
 endfun
 
@@ -200,6 +215,7 @@ endfun
 "endfun
 
 no <Leader>a ggVG
+no <Leader>tt :w <C-R>=tempname()<CR>
 nn <leader>ll :ALEToggle<CR>
 "no <Leader>d call AleDogePatch()
 
@@ -333,7 +349,7 @@ command! Hardcopy call s:Hardcopy()
 aug all
     au!
     au BufWritePost $MYVIMRC nested so $MYVIMRC | cal s:PlugSort()
-    au BufWritePost *.py sil !ctags -R --python-kinds=-i
+    au BufWritePost *.py sil !ctags %:h -R -V --python-kinds=-i
 
     if g:os =~ "win"
         au FileType python nn <buffer> <F5> :!start cmd /c python % & pause<cr>
