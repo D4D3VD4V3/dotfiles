@@ -367,6 +367,7 @@ aug all
     "au OptionSet wrap cal s:ToggleDisplayLineMappings()
     "au VimEnter * call s:ResizeNewWindow()
     "au BufEnter * call s:ResizeNewWindow()
+    au BufEnter * silent! lcd %:p:h
 aug END
 
 aug CustomAyuColorScheme
