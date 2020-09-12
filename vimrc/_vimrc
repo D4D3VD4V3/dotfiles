@@ -2,8 +2,10 @@ se nocp
 
 cal plug#begin()
 Plug 'dense-analysis/ale'
+Plug 'huyvohcmc/atlas.vim'
 Plug 'ayu-theme/ayu-vim'
 "Plug 'python/black', {'for': ['python']}
+Plug 'neoclide/coc-java'
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'lilydjwg/colorizer'
@@ -30,8 +32,10 @@ Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-fugitive'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go'}
 Plug 'xolox/vim-misc'
+Plug 'fxn/vim-monochrome'
 "Plug 'flebel/vim-mypy', { 'for': 'python', 'branch': 'bugfix/fast_parser_is_default_and_only_parser' }
 Plug 'xolox/vim-notes'
+"Plug 'junegunn/vim-peekaboo' "buggy mess
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-repeat'
 Plug 'jremmen/vim-ripgrep'
@@ -41,8 +45,6 @@ Plug 'tpope/vim-unimpaired'
 "Plug 'jmcantrell/vim-virtualenv', {'for': ['python']}
 Plug 'lervag/vimtex', {'for': ['tex']}
 Plug 'vimwiki/vimwiki'
-Plug 'neoclide/coc-java'
-
 cal plug#end()
 
 pa! matchit
@@ -65,7 +67,6 @@ function! s:ResizeNewWindow()
 "    let &co = (s:max_line_length < s:pref_min_line_length ?  s:pref_min_line_length : (s:max_line_length + s:offset))
 endfun
 
-"TODO: Fix this
 function! s:PlugSort()
     let start = search('\v\C^%(^\s*"?\s*Plug)@!.*\n\zs', 'bcWn')
     "echom(l:start)
@@ -73,7 +74,7 @@ function! s:PlugSort()
     let end = search('\v\C.\ze\n%(^\s*"?\s*Plug)@!', 'cW')
     "echom(l:end)
     exec start.','.end.'sort /^\s*"\?\s*Plug\s\+''[^\/]\+\// i'
-    "echon 'plugins sorted'
+    "echon 'plugins list sorted'
 endfunction
 
 if g:os =~ "Windows"
@@ -364,7 +365,7 @@ aug all
     "au GuiEnter * sim ~x "Maximized GVIM Window
     au QuickFixCmdPost * cw
     "au OptionSet nowrap cal DisableDisplayLineMappings()
-    "au OptionSet wrap cal s:ToggleDisplayLineMappings()
+    au OptionSet wrap cal s:ToggleDisplayLineMappings()
     "au VimEnter * call s:ResizeNewWindow()
     "au BufEnter * call s:ResizeNewWindow()
     au BufEnter * silent! lcd %:p:h
