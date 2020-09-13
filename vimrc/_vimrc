@@ -45,6 +45,7 @@ Plug 'tpope/vim-unimpaired'
 "Plug 'jmcantrell/vim-virtualenv', {'for': ['python']}
 Plug 'lervag/vimtex', {'for': ['tex']}
 Plug 'vimwiki/vimwiki'
+Plug 'whonore/Coqtail'
 cal plug#end()
 
 pa! matchit
@@ -209,6 +210,10 @@ function! s:FixAyuColorScheme()
     endif
 endfun
 
+function! s:FixCoqTailHL()
+    highlight CoqtailChecked guibg=#a9a9a9
+endfun
+
 "function! AleDogePatch()
     "ALEDisable
     "call doge#generate()
@@ -322,6 +327,8 @@ nmap <silent> <a-k> <Plug>(ale_previous_wrap)
 nmap <silent> <a-j> <Plug>(ale_next_wrap)
 nmap <silent> <Leader>zww <Plug>VimwikiIndex
 
+nmap <c-s> <plug>(SynStack)
+
 func! s:SetBreakpoint()
     cal append('.', repeat(' ', strlen(matchstr(getline('.'), '^\s*'))) . 'import ipdb; ipdb.set_trace()')
 endf
@@ -337,6 +344,7 @@ endf
 cmap w!! %!sudo tee > /dev/null %
 
 let g:tex_flavor = 'latex'
+let g:coqtail_coq_path = 'C:\Coq\bin\'
 
 function! s:Hardcopy()
   let colors_save = g:colors_name
@@ -375,6 +383,12 @@ aug CustomAyuColorScheme
     au!
     au ColorScheme ayu call s:FixAyuColorScheme()
 aug END
+
+aug CustomCoqTailHL
+    au!
+    au FileType coq echom "alskdfj" | CoqStart | call s:FixCoqTailHL()
+aug END
+
 colorscheme ayu
 
 function! Pastebin(type)
@@ -397,7 +411,6 @@ function! Pastebin(type)
     endif
     let l:tmp = tempname()
     call writefile(l:text, l:tmp)
-    " ix.io
     call setreg('+', systemlist('sh -c ''curl -NsF "text=<'.l:tmp.'" vpaste.net?ft='.&ft.'''')[0] . '?bg=dark&nu')
     redraw!
     echon "\rDone: @+ = ".@+
