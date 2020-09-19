@@ -9,9 +9,10 @@ Plug 'neoclide/coc-java'
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'lilydjwg/colorizer'
+Plug 'whonore/Coqtail'
 Plug 'Raimondi/delimitMate'
 Plug 'mattn/emmet-vim', {'for': ['html', 'css']}
-Plug 'junegunn/fzf'
+Plug 'junegunn/fzf' "{ 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim', {'for': ['markdown', 'text']}
 "Plug 'davidhalter/jedi-vim'
@@ -21,14 +22,14 @@ Plug 'unblevable/quick-scope'
 Plug 'luochen1990/rainbow'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'ervandew/supertab'
-Plug 'dylnmc/synstack.vim'
+Plug 'dylnmc/synstack.vim' "{'on': ['SynAuto', 'SynAutoOn', 'SynPopup', 'SynPopupOn']}
 Plug 'majutsushi/tagbar'
-Plug 'wellle/targets.vim'
+Plug 'wellle/targets.vim' "need this for cib to work from line beginning.
+Plug 'SirVer/ultisnips'
 Plug 'tpope/vim-abolish'
 Plug 'alvan/vim-closetag', {'for': ['html, xhtml', 'phtml', 'xml']}
 Plug 'kkoomen/vim-doge', {'for': ['python']}
 Plug 'junegunn/vim-easy-align'
-"Plug 'nvie/vim-flake8', {'for': 'python'}
 Plug 'tpope/vim-fugitive'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go'}
 Plug 'xolox/vim-misc'
@@ -45,7 +46,6 @@ Plug 'tpope/vim-unimpaired'
 "Plug 'jmcantrell/vim-virtualenv', {'for': ['python']}
 Plug 'lervag/vimtex', {'for': ['tex']}
 Plug 'vimwiki/vimwiki'
-Plug 'whonore/Coqtail'
 cal plug#end()
 
 pa! matchit
@@ -89,7 +89,8 @@ se wrap
 se nowrapscan
 se enc=utf-8
 se termguicolors
-let ayucolor="dark"
+"let ayucolor="dark"
+let ayucolor="light"
 "se guifont=Anonymice\ Pro\ 20
 se guifont=Anonymice_Powerline:h11:cANSI:qDRAFT
 
@@ -211,7 +212,10 @@ function! s:FixAyuColorScheme()
 endfun
 
 function! s:FixCoqTailHL()
-    highlight CoqtailChecked guibg=#a9a9a9
+    "highlight CoqtailChecked guibg=#646258
+    highlight CoqtailChecked guibg=#0b2042
+    highlight CoqError guibg=#646258
+    highlight MatchParen guibg=#000000
 endfun
 
 "function! AleDogePatch()
@@ -226,6 +230,8 @@ nn <leader>ll :ALEToggle<CR>
 "no <Leader>d call AleDogePatch()
 
 nn <Leader>b :ls<CR>:b<Space>
+nn <Leader>ff :BLines<CR>
+nn <Leader>fh :History<CR>
 sil! nm <F3> :NERDTreeFind<CR>
 sil! nm <F4> :NERDTreeToggle<CR>
 sil! nm <F8> :TagbarToggle<CR>
@@ -241,13 +247,20 @@ xn > >gv
 nn <leader>n :Note<CR>
 nn <silent> <Leader>e :e $MYVIMRC<CR>
 nn <leader>w :w!<cr>
+"nn <leader>w :up!<cr>
 nn <leader>v :vs<CR><C-L><C-F>:se scb<CR><C-H>:se scb<CR>
+
+"Windows-specific mappings
+
+if g:os == "Windows"
+    nn <leader>oe :sil! !start <C-R>='"' . expand("%:p:h") . '"'<CR><CR>
+    nn <Leader>owe :!start Explorer /select,%:p<cr>
+    nn <Leader>ocp :!start cmd /k cd %:p:h<cr>
+endif
 
 nn <leader>cp :let @*='"' . expand("%:p") . '"'<CR>
 nn <leader>cd :let @*='"' . expand("%:p:h") . '"'<CR>
-nn <leader>oe :sil! !start <C-R>='"' . expand("%:p:h") . '"'<CR><CR>
-nn <Leader>owe :!start Explorer /select,%:p<cr>
-nn <Leader>ocp :!start cmd /k cd %:p:h<cr>
+"TODO: disable in command mode history buffer.
 nn <silent> <CR> :nohlsearch<CR>
 nn <silent> <C-P> :FZF<CR>
 
@@ -360,7 +373,7 @@ aug all
     au BufWritePost $MYVIMRC nested so $MYVIMRC | cal s:PlugSort()
     au BufWritePost *.py sil !ctags %:h -R -V --python-kinds=-i
 
-    if g:os =~ "win"
+    if g:os == "Windows"
         au FileType python nn <buffer> <F5> :!start cmd /c python % & pause<cr>
         "au FileType python nn <buffer> <F5> :call system('python ' .
         "expand('%') . ' & pause')
@@ -386,10 +399,14 @@ aug END
 
 aug CustomCoqTailHL
     au!
-    au FileType coq echom "alskdfj" | CoqStart | call s:FixCoqTailHL()
+    au FileType coq CoqStart | call s:FixCoqTailHL()
 aug END
 
 colorscheme ayu
+
+"command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, {'options': ['--bind ctrl-b:preview-page-up, ctrl-f:preview-page-down']}, <bang>0)
+"command! -bang -nargs=? -complete=dir BLines call fzf#vim#lines(<q-args>, {'options': ['--bind ctrl-b:preview-page-up, ctrl-f:preview-page-down']}, <bang>0)
+"command! -bang -nargs=? -complete=dir History call fzf#vim#history(<q-args>, {'options': ['--bind ctrl-b:preview-page-up, ctrl-f:preview-page-down']}, <bang>0)
 
 function! Pastebin(type)
     if a:type is# 'char'
