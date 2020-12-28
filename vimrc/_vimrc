@@ -1,10 +1,12 @@
 se nocp
 
+
 cal plug#begin()
 Plug 'dense-analysis/ale'
 Plug 'huyvohcmc/atlas.vim'
 Plug 'ayu-theme/ayu-vim'
 "Plug 'python/black', {'for': ['python']}
+Plug 'ilyachur/cmake4vim'
 Plug 'neoclide/coc-java'
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -18,6 +20,7 @@ Plug 'junegunn/goyo.vim', {'for': ['markdown', 'text']}
 "Plug 'davidhalter/jedi-vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind']}
+Plug 'zah/nim.vim'
 Plug 'unblevable/quick-scope'
 Plug 'luochen1990/rainbow'
 Plug 'AndrewRadev/splitjoin.vim'
@@ -39,13 +42,14 @@ Plug 'xolox/vim-notes'
 "Plug 'junegunn/vim-peekaboo' "buggy mess
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rhubarb'
 Plug 'jremmen/vim-ripgrep'
 Plug 'xolox/vim-session'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 "Plug 'jmcantrell/vim-virtualenv', {'for': ['python']}
 Plug 'lervag/vimtex', {'for': ['tex']}
-Plug 'vimwiki/vimwiki'
+"Plug 'vimwiki/vimwiki'
 cal plug#end()
 
 pa! matchit
@@ -85,12 +89,11 @@ endif
 se cursorline
 se path+=**
 se hlsearch
-se wrap
 se nowrapscan
 se enc=utf-8
 se termguicolors
-"let ayucolor="dark"
-let ayucolor="light"
+let ayucolor="dark"
+"let ayucolor="light"
 "se guifont=Anonymice\ Pro\ 20
 se guifont=Anonymice_Powerline:h11:cANSI:qDRAFT
 
@@ -114,7 +117,6 @@ se ar
 se linebreak
 se history=9999
 se formatoptions+=r
-se wrap
 se bs=indent,eol,start
 se ts=4
 se sts=4
@@ -171,6 +173,7 @@ se viminfo+=s1000
 se viminfo+=/1000
 se viminfo+=:1000
 
+filetype plugin indent on
 syn enable
 
 
@@ -180,16 +183,18 @@ elseif g:os =~ "Linux"
     nn <f12> :sil! !ctags -R --python-kinds=-i %<cr>
 endif
 
+noremap <expr> j (v:count? 'j' : 'gj')
+noremap <expr> k (v:count? 'k' : 'gk')
 function! s:ToggleDisplayLineMappings()
     if &wrap ==? 'nowrap'
-        unmap <silent> k
-        unmap <silent> j
-        unmap <silent> 0
-        unmap <silent> ^
-        unmap <silent> $
+        "unmap <silent> k
+        "unmap <silent> j
+        silent! unmap <silent> 0
+        silent! unmap <silent> ^
+        silent! unmap <silent> $
     else
-        no <silent> k gk
-        no <silent> j gj
+        "no <silent> k gk
+        "no <silent> j gj
         no <silent> 0 g0
         no <silent> ^ g^
         no <silent> $ g$
@@ -225,6 +230,8 @@ endfun
 "endfun
 
 no <Leader>a ggVG
+no <silent> <Leader><Leader>w :se wrap!<CR>
+no <silent> <Leader><Leader>h :se hls!<CR>
 no <Leader>tt :w <C-R>=tempname()<CR>
 nn <leader>ll :ALEToggle<CR>
 "no <Leader>d call AleDogePatch()
@@ -390,6 +397,7 @@ aug all
     "au VimEnter * call s:ResizeNewWindow()
     "au BufEnter * call s:ResizeNewWindow()
     au BufEnter * silent! lcd %:p:h
+    "au BufWritePre * if &ft == '' | filetype detect | endif
 aug END
 
 aug CustomAyuColorScheme
@@ -402,11 +410,18 @@ aug CustomCoqTailHL
     au FileType coq CoqStart | call s:FixCoqTailHL()
 aug END
 
-colorscheme ayu
+"fallback to industry as an alternative to getting flashbanged...
+try
+    colorscheme ayu
+catch
+    colorscheme industry
+endtry
 
 "command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, {'options': ['--bind ctrl-b:preview-page-up, ctrl-f:preview-page-down']}, <bang>0)
 "command! -bang -nargs=? -complete=dir BLines call fzf#vim#lines(<q-args>, {'options': ['--bind ctrl-b:preview-page-up, ctrl-f:preview-page-down']}, <bang>0)
 "command! -bang -nargs=? -complete=dir History call fzf#vim#history(<q-args>, {'options': ['--bind ctrl-b:preview-page-up, ctrl-f:preview-page-down']}, <bang>0)
+
+let g:pastebin = 'vpaste'
 
 function! Pastebin(type)
     if a:type is# 'char'
@@ -435,3 +450,12 @@ endfunction
 
 nnoremap <silent> <leader>pb :set opfunc=Pastebin<cr>g@
 xnoremap <silent> <leader>pb :<c-u>call Pastebin(visualmode())<cr>
+
+function! SourceLinesOfCodeWithoutComments()
+    echom len(filter(range(line('$')), {idx -> synIDattr(synID(idx + 1, 1, 1), "name") !~? 'comment\|^$'})) . " SLOC without inclusion of comments."
+endfunction
+
+nnoremap <silent> <leader>sloc :<c-u>call SourceLinesOfCodeWithoutComments()<cr>
+"nnoremap <silent> <leader>sloc :<c-u>echom len(filter(range(line('$')), {idx -> synIDattr(synID(idx + 1, 1, 1), "name") !~? 'comment\|^$'}))<cr>
+
+command! SyntaxGroup :echo synIDattr(synID(line("."), col("."), 1), "name")
