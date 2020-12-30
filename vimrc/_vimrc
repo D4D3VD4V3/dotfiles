@@ -74,10 +74,7 @@ endfun
 
 function! s:PlugSort()
     let start = search('\v\C^%(^\s*"?\s*Plug)@!.*\n\zs', 'bcWn')
-    "echom(l:start)
-    "cursor(l:start, 1)
     let end = search('\v\C.\ze\n%(^\s*"?\s*Plug)@!', 'cW')
-    "echom(l:end)
     exec start.','.end.'sort /^\s*"\?\s*Plug\s\+''[^\/]\+\// i'
     "echon 'plugins list sorted'
 endfunction
@@ -93,8 +90,6 @@ se nowrapscan
 se enc=utf-8
 se termguicolors
 let ayucolor="dark"
-"let ayucolor="light"
-"se guifont=Anonymice\ Pro\ 20
 se guifont=Anonymice_Powerline:h11:cANSI:qDRAFT
 
 se pythonthreedll=python37.dll
@@ -452,10 +447,14 @@ nnoremap <silent> <leader>pb :set opfunc=Pastebin<cr>g@
 xnoremap <silent> <leader>pb :<c-u>call Pastebin(visualmode())<cr>
 
 function! SourceLinesOfCodeWithoutComments()
-    echom len(filter(range(line('$')), {idx -> synIDattr(synID(idx + 1, 1, 1), "name") !~? 'comment\|^$'})) . " SLOC without inclusion of comments."
+    let l:smc = &l:smc
+    let &l:smc=0
+    let l:sloc = len(filter(range(line('$')), {idx -> synIDattr(synID(idx + 1, 1, 1), "name") !~? 'comment\|^$'}))
+    let l:percent = str2float(printf("%.2f", str2float(l:sloc) / str2float(line("$")) * 100))
+    echom l:sloc 'SLOC or ' . string(l:percent) . '% of the file is code (excluding empty lines and comments).'
+    let &l:smc=l:smc
 endfunction
 
 nnoremap <silent> <leader>sloc :<c-u>call SourceLinesOfCodeWithoutComments()<cr>
-"nnoremap <silent> <leader>sloc :<c-u>echom len(filter(range(line('$')), {idx -> synIDattr(synID(idx + 1, 1, 1), "name") !~? 'comment\|^$'}))<cr>
 
 command! SyntaxGroup :echo synIDattr(synID(line("."), col("."), 1), "name")
