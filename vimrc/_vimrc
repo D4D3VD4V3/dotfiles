@@ -37,6 +37,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go'}
 Plug 'xolox/vim-misc'
 Plug 'fxn/vim-monochrome'
+Plug 'simnalamburt/vim-mundo'
 "Plug 'flebel/vim-mypy', { 'for': 'python', 'branch': 'bugfix/fast_parser_is_default_and_only_parser' }
 Plug 'xolox/vim-notes'
 "Plug 'junegunn/vim-peekaboo' "buggy mess
@@ -227,6 +228,7 @@ endfun
 no <Leader>a ggVG
 no <silent> <Leader><Leader>w :se wrap!<CR>
 no <silent> <Leader><Leader>h :se hls!<CR>
+no <silent> <Leader><Leader>l :ALEFix<CR>
 no <Leader>tt :w <C-R>=tempname()<CR>
 nn <leader>ll :ALEToggle<CR>
 "no <Leader>d call AleDogePatch()
@@ -234,9 +236,10 @@ nn <leader>ll :ALEToggle<CR>
 nn <Leader>b :ls<CR>:b<Space>
 nn <Leader>ff :BLines<CR>
 nn <Leader>fh :History<CR>
-sil! nm <F3> :NERDTreeFind<CR>
-sil! nm <F4> :NERDTreeToggle<CR>
-sil! nm <F8> :TagbarToggle<CR>
+nm <silent> <F3> :NERDTreeFind<CR>
+nm <silent> <F4> :NERDTreeToggle<CR>
+nm <silent> <F8> :TagbarToggle<CR>
+nm <silent> <F5> :MundoToggle<CR>
 
 com! -nargs=* -complete=help H helpg <args>
 
@@ -255,9 +258,9 @@ nn <leader>v :vs<CR><C-L><C-F>:se scb<CR><C-H>:se scb<CR>
 "Windows-specific mappings
 
 if g:os == "Windows"
-    nn <leader>oe :sil! !start <C-R>='"' . expand("%:p:h") . '"'<CR><CR>
-    nn <Leader>owe :!start Explorer /select,%:p<cr>
-    nn <Leader>ocp :!start cmd /k cd %:p:h<cr>
+    nn <silent> <leader>oe :sil! !start <C-R>='"' . expand("%:p:h") . '"'<CR><CR>
+    nn <silent> <Leader>owe :!start Explorer /select,%:p<cr>
+    nn <silent> <Leader>ocp :!start cmd /k cd %:p:h<cr>
 endif
 
 nn <leader>cp :let @*='"' . expand("%:p") . '"'<CR>
@@ -335,7 +338,7 @@ let g:rainbow_active=1
 let g:session_autoload='no'
 
 let g:ale_linters = {'python': ['flake8', 'mypy']}
-let g:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace'], 'python': ['black', 'isort', 'add_blank_lines_for_python_control_statements']}
+let g:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace'], 'c': ['astyle'], 'python': ['black', 'isort', 'add_blank_lines_for_python_control_statements'], 'nim': ['nimpretty']}
 let g:ale_fix_on_save = 1
 let g:ale_open_list = 1
 nmap <silent> <a-k> <Plug>(ale_previous_wrap)
@@ -458,3 +461,4 @@ endfunction
 nnoremap <silent> <leader>sloc :<c-u>call SourceLinesOfCodeWithoutComments()<cr>
 
 command! SyntaxGroup :echo synIDattr(synID(line("."), col("."), 1), "name")
+command! Update :PlugUpgrade | PlugUpdate
