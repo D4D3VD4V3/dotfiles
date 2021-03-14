@@ -7,11 +7,11 @@ Plug 'huyvohcmc/atlas.vim'
 Plug 'ayu-theme/ayu-vim'
 "Plug 'python/black', {'for': ['python']}
 Plug 'ilyachur/cmake4vim'
-Plug 'neoclide/coc-java'
+Plug 'neoclide/coc-java', {'for': ['java']}
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'lilydjwg/colorizer'
-Plug 'whonore/Coqtail'
+Plug 'whonore/Coqtail', {'for': ['v']}
 Plug 'Raimondi/delimitMate'
 Plug 'mattn/emmet-vim', {'for': ['html', 'css']}
 Plug 'junegunn/fzf' "{ 'do': { -> fzf#install() } }
@@ -34,10 +34,11 @@ Plug 'alvan/vim-closetag', {'for': ['html, xhtml', 'phtml', 'xml']}
 Plug 'kkoomen/vim-doge', {'for': ['python']}
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-fugitive'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go'}
+Plug 'fatih/vim-go'
+"Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go'}
 Plug 'xolox/vim-misc'
 Plug 'fxn/vim-monochrome'
-Plug 'simnalamburt/vim-mundo'
+Plug 'simnalamburt/vim-mundo', {'on': ['MundoToggle']}
 "Plug 'flebel/vim-mypy', { 'for': 'python', 'branch': 'bugfix/fast_parser_is_default_and_only_parser' }
 Plug 'xolox/vim-notes'
 "Plug 'junegunn/vim-peekaboo' "buggy mess
@@ -173,11 +174,6 @@ filetype plugin indent on
 syn enable
 
 
-if g:os =~ "Windows"
-    nn <f12> :sil !ctags -R --python-kinds=-i %<cr>
-elseif g:os =~ "Linux"
-    nn <f12> :sil! !ctags -R --python-kinds=-i %<cr>
-endif
 
 noremap <expr> j (v:count? 'j' : 'gj')
 noremap <expr> k (v:count? 'k' : 'gk')
@@ -257,22 +253,25 @@ nn <leader>v :vs<CR><C-L><C-F>:se scb<CR><C-H>:se scb<CR>
 
 "Windows-specific mappings
 
-if g:os == "Windows"
+if g:os =~ "Windows"
     nn <silent> <leader>oe :sil! !start <C-R>='"' . expand("%:p:h") . '"'<CR><CR>
     nn <silent> <Leader>owe :!start Explorer /select,%:p<cr>
     nn <silent> <Leader>ocp :!start cmd /k cd %:p:h<cr>
+    nn <f12> :sil !ctags -R --python-kinds=-i %<cr>
+elseif g:os =~ "Linux"
+    nn <f12> :sil! !ctags -R --python-kinds=-i %<cr>
 endif
 
-nn <leader>cp :let @*='"' . expand("%:p") . '"'<CR>
+nn <silent> <leader>cp :let @*='"' . expand("%:p") . '"'<CR>
 nn <leader>cd :let @*='"' . expand("%:p:h") . '"'<CR>
 "TODO: disable in command mode history buffer.
 nn <silent> <CR> :nohlsearch<CR>
 nn <silent> <C-P> :FZF<CR>
 
-nn <Leader>qo :cope<CR>
-nn <Leader>qc :ccl<CR>
-nn <Leader>lo :lop<CR>
-nn <Leader>lc :lcl<CR>
+nn <silent> <Leader>qo :cope<CR>
+nn <silent> <Leader>qc :ccl<CR>
+nn <silent> <Leader>lo :lop<CR>
+nn <silent> <Leader>lc :lcl<CR>
 
 nn <leader>ga :Git add %:p<CR><CR>
 nn <leader>gs :Gstatus<CR>
@@ -294,6 +293,11 @@ nn <C-J> <C-W><C-J>
 nn <C-K> <C-W><C-K>
 nn <C-L> <C-W><C-L>
 nn <C-H> <C-W><C-H>
+
+tno <C-J> <C-W><C-J>
+tno <C-K> <C-W><C-K>
+tno <C-L> <C-W><C-L>
+tno <C-H> <C-W><C-H>
 
 nn <Left> <C-W><
 nn <Right> <C-W>>
@@ -319,6 +323,8 @@ let g:session_autosave='yes'
 
 let g:NERDTreeIgnore=['\.swp$', '\.un\~$', '\.pyc$', 'tags', '\.ropeproject[[dir]]', '__pycache__[[dir]]']
 let g:NERDDefaultAlign = 'left'
+
+let g:SuperTabDefaultCompletionType = "<c-n>"
 
 let g:virtualenv_auto_activate=1
 
