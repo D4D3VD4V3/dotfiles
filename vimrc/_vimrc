@@ -74,6 +74,13 @@ function! s:ResizeNewWindow()
 "    let &co = (s:max_line_length < s:pref_min_line_length ?  s:pref_min_line_length : (s:max_line_length + s:offset))
 endfun
 
+function! s:ReEncryptFile()
+    if len(&key) > 0
+        :
+
+    endif
+endfun
+
 function! s:PlugSort()
     let start = search('\v\C^%(^\s*"?\s*Plug)@!.*\n\zs', 'bcWn')
     let end = search('\v\C.\ze\n%(^\s*"?\s*Plug)@!', 'cW')
@@ -93,6 +100,7 @@ se enc=utf-8
 se termguicolors
 let ayucolor="dark"
 se guifont=Anonymice_Powerline:h11:cANSI:qDRAFT
+se cryptmethod=blowfish2
 
 se pythonthreedll=python37.dll
 "colo industry
@@ -255,8 +263,8 @@ nn <leader>v :vs<CR><C-L><C-F>:se scb<CR><C-H>:se scb<CR>
 
 if g:os =~ "Windows"
     nn <silent> <leader>oe :sil! !start <C-R>='"' . expand("%:p:h") . '"'<CR><CR>
-    nn <silent> <Leader>owe :!start Explorer /select,%:p<cr>
-    nn <silent> <Leader>ocp :!start cmd /k cd %:p:h<cr>
+    nn <silent> <Leader>owe :sil! !start Explorer /select,%:p<cr>
+    nn <silent> <Leader>ocp :sil! !start cmd /k cd %:p:h<cr>
     nn <f12> :sil !ctags -R --python-kinds=-i %<cr>
 elseif g:os =~ "Linux"
     nn <f12> :sil! !ctags -R --python-kinds=-i %<cr>
@@ -454,6 +462,7 @@ endfunction
 
 nnoremap <silent> <leader>pb :set opfunc=Pastebin<cr>g@
 xnoremap <silent> <leader>pb :<c-u>call Pastebin(visualmode())<cr>
+nnoremap <silent> <leader><leader>d :<c-u>put =strftime('%c')<cr>
 
 function! SourceLinesOfCodeWithoutComments()
     let l:smc = &l:smc
